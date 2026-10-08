@@ -187,7 +187,7 @@ h2{font-size:clamp(42px,5.6vw,92px);line-height:.92}
 .coll-head .eyebrow{color:var(--ink-2)}
 .count{font:500 13px var(--body);letter-spacing:.2em;color:var(--ink-3)}
 .count b{font:700 46px/1 var(--display);letter-spacing:-.03em;color:var(--ink);margin-right:4px}
-.card{grid-column:2;grid-row:2;align-self:center;display:grid;grid-template-columns:1fr auto;gap:20px 28px;max-width:600px;align-items:start}
+.card{grid-column:2;grid-row:2;align-self:center;display:grid;grid-template-columns:1fr auto;gap:20px 28px;max-width:640px;align-items:start;padding:28px;background:rgba(250,247,242,.78);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 30px 60px -40px rgba(0,0,0,.25)}
 .card .txt{display:flex;flex-direction:column;gap:18px;min-width:0}
 .kicker{font:600 10.5px var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--red)}
 .card h3{font-size:clamp(44px,5vw,80px);line-height:.9;min-height:1.8em;display:flex;flex-direction:column;justify-content:flex-end}
@@ -285,7 +285,7 @@ h2{font-size:clamp(42px,5.6vw,92px);line-height:.92}
 .slot.full .nm{opacity:1}
 .picker{display:flex;flex-direction:column;gap:26px}
 .picker h4{margin:0;font:600 11px var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-2)}
-.picks{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.picks{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
 .pick{display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 6px 12px;border:1px solid var(--hair);background:var(--paper);transition:border-color .3s,transform .4s var(--ease)}
 .pick:hover{border-color:var(--red);transform:translateY(-3px)}
 .pick .mini{position:relative;width:34px;height:56px}
@@ -296,7 +296,7 @@ h2{font-size:clamp(42px,5.6vw,92px);line-height:.92}
 .box-sum .acts{display:flex;gap:18px;align-items:center}
 .clear{font:600 10px var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);text-decoration:underline;text-underline-offset:4px}
 .btn[disabled]{opacity:.35;pointer-events:none}
-@media (max-width:900px){.box-grid{grid-template-columns:1fr}.picks{gap:5px}.pick span{font-size:8px;letter-spacing:.04em}}
+@media (max-width:900px){.box-grid{grid-template-columns:1fr}.picks{gap:5px;grid-template-columns:repeat(5,1fr)}.pick span{font-size:8px;letter-spacing:.04em}}
 
 /* CSS mini bottles, one per real bottle shape */
 .mini{--liq:#D8701A}
@@ -305,10 +305,12 @@ h2{font-size:clamp(42px,5.6vw,92px);line-height:.92}
 .mini .cap{top:0;height:31%;left:26%;right:26%}
 .mini[data-s="round"] .gl{border-radius:24% 24% 14% 14%/18% 18% 8% 8%}
 .mini[data-s="round"] .cap{background:linear-gradient(#111 0 46%,rgba(255,255,255,.7) 46% 100%);box-shadow:inset 0 0 0 1px rgba(0,0,0,.25);border-radius:2px}
-.mini[data-s="oct"] .gl{clip-path:polygon(22% 0,78% 0,100% 16%,100% 88%,82% 100%,18% 100%,0 88%,0 16%)}
-.mini[data-s="oct"] .cap{background:linear-gradient(rgba(255,255,255,.9),rgba(220,220,220,.8) 70%,#C9A25A 70%);clip-path:polygon(18% 0,82% 0,100% 30%,100% 100%,0 100%,0 30%)}
+.mini[data-s="gem"] .gl{clip-path:polygon(22% 0,78% 0,100% 16%,100% 88%,82% 100%,18% 100%,0 88%,0 16%)}
+.mini[data-s="gem"] .cap{background:linear-gradient(rgba(255,255,255,.9),rgba(220,220,220,.8) 70%,#C9A25A 70%);clip-path:polygon(18% 0,82% 0,100% 30%,100% 100%,0 100%,0 30%)}
 .mini[data-s="square"] .gl{border-radius:3px}
 .mini[data-s="square"] .cap{background:#0b0b0b;border-radius:2px;left:22%;right:22%}
+.mini[data-s="tumbler"] .cap{display:none}
+.mini[data-s="tumbler"] .gl{top:12%;background:linear-gradient(rgba(255,255,255,.75) 0 48%,var(--liq) 48%),repeating-linear-gradient(60deg,rgba(255,255,255,.4) 0 3px,transparent 3px 8px);background-blend-mode:multiply;border-radius:2px}
 
 #final{position:relative;background:var(--red);color:var(--paper);padding:clamp(100px,12vw,180px) var(--gutter);text-align:center;display:flex;flex-direction:column;align-items:center;gap:34px;overflow:hidden}
 #final .logo-stacked{width:clamp(120px,12vw,170px)}
@@ -430,9 +432,9 @@ body.moved .cursor,body.moved .dot-c{opacity:1}
         <div class="coll-head">
           <div>
             <p class="eyebrow">Our signature</p>
-            <h2 id="collH" style="font-size:clamp(34px,3.6vw,58px);margin-top:16px">Eight bottles. One for every you.</h2>
+            <h2 id="collH" style="font-size:clamp(34px,3.6vw,58px);margin-top:16px">Ten signatures. One for every you.</h2>
           </div>
-          <div class="count" aria-hidden="true"><b id="cIdx">01</b>/ 08</div>
+          <div class="count" aria-hidden="true"><b id="cIdx">01</b>/ 10</div>
         </div>
         <article class="card" aria-live="polite">
           <div class="txt">
@@ -535,7 +537,7 @@ body.moved .cursor,body.moved .dot-c{opacity:1}
     <div><h5>Shop</h5><ul><li><a href="#collection">For her</a></li><li><a href="#collection">For unisex</a></li><li><a href="#box">Gift boxes</a></li></ul></div>
     <div><h5>Company</h5><ul><li><a href="#pillars">Our story</a></li><li><a href="#pillars">Craftsmanship</a></li><li><a href="#gallery">Journal</a></li></ul></div>
     <div><h5>Help</h5><ul><li><a href="#footer">Shipping</a></li><li><a href="#footer">Returns</a></li><li><a href="#footer">Contact</a></li></ul></div>
-    <div class="legal"><span>Concept homepage by <b>BEYOUROWN</b> · beyourown.in · not the live store</span><span>3D bottles are stand-in renders. Photography and logo from the Lusso di Firenze brand guidelines. MRP and discount figures are placeholders; the Majesty Noir top/heart/base grouping is indicative.</span></div>
+    <div class="legal"><span>Concept homepage by <b>BEYOUROWN</b> · beyourown.in · not the live store</span><span>3D bottles are stand-in renders. Photography and logo from the Lusso di Firenze brand guidelines. MRP and discount figures are placeholders; the Majesty Noir top/heart/base grouping is indicative. Royal Velvet is shown in the round bottle until its photography is supplied.</span></div>
   </footer>
 </div>
 
@@ -549,16 +551,18 @@ body.moved .cursor,body.moved .dot-c{opacity:1}
    mrp values are placeholders until the live MRPs are supplied.
    ============================================================ */
 const FRAGS=[
-  {id:'majesty',name:'Majesty Noir',shape:'square',liquid:'#E4DE8E',conc:'Eau de parfum',who:'For unisex',desc:'Bright citrus, a pineapple heart, smoked woods beneath.',notes:'Bergamot · black currant · jasmine · birch · oakmoss · musk',price:1385,mrp:2499,img:'majesty-splash.jpg'},
-  {id:'flora',name:'Flora Bella',shape:'oct',liquid:'#F2C24C',conc:'Eau de parfum',who:'For her',desc:'A blossom of timeless beauty.',notes:'Peony · rose · osmanthus · pink pepper · sandalwood',price:1847,mrp:2999,img:'flora-smile.jpg'},
-  {id:'aura',name:'Aura Elegance',shape:'round',liquid:'#2CC497',conc:'Eau de parfum',who:'For unisex',desc:'A luminous blend of fruity freshness and spiced florals.',notes:'',price:1385,mrp:2499,img:'aura-denim.jpg'},
-  {id:'amber',name:'Amber Nomad',shape:'round',liquid:'#F2A03A',conc:'Extrait de parfum',who:'For unisex',desc:'Warm amber, soft resins, a slow golden trail.',notes:'',price:1385,mrp:2499,img:'amber-car.jpg'},
-  {id:'miss',name:'Miss Desire',shape:'round',liquid:'#F49AB0',conc:'Eau de parfum',who:'For her',desc:'A fragrance of graceful intensity.',notes:'',price:1385,mrp:2499,img:'miss-stone.jpg'},
-  {id:'vaan',name:'Vaan Noir',shape:'oct',liquid:'#E8AE22',conc:'Extrait de parfum',who:'',desc:'Deep gold, quiet depth, an after-hours signature.',notes:'',price:1847,mrp:2999,img:'vaan-books.jpg'},
-  {id:'silver',name:'Silver Elite',shape:'round',liquid:'#F2D230',conc:'Eau de parfum',who:'For unisex',desc:'Crisp, polished and quietly confident.',notes:'',price:1385,mrp:2499,img:'silver-tray.jpg'},
-  {id:'rouge',name:'Rouge Signature',shape:'square',liquid:'#EFE3A2',conc:'Eau de parfum',who:'For unisex',desc:'A bold expression of modern elegance.',notes:'',price:1385,mrp:2499,img:'pack-rouge.jpg'}
+  {id:'majesty',name:'Majesty Noir',shape:'square',liquid:'#E6E19A',conc:'Eau de parfum',who:'For unisex',desc:'Bright citrus, a pineapple heart, smoked woods beneath.',notes:'Bergamot · black currant · jasmine · birch · oakmoss · musk',price:1385,mrp:2499,img:'majesty-splash.jpg'},
+  {id:'flora',name:'Flora Bella',shape:'gem',liquid:'#F6D982',conc:'Eau de parfum',who:'For her',desc:'A blossom of timeless beauty.',notes:'Peony · rose · osmanthus · pink pepper · sandalwood',price:1847,mrp:2999,img:'flora-smile.jpg'},
+  {id:'aura',name:'Aura Elegance',shape:'round',liquid:'#3FC9A4',conc:'Eau de parfum',who:'For unisex',desc:'A luminous blend of fruity freshness and spiced florals.',notes:'',price:1385,mrp:2499,img:'aura-denim.jpg'},
+  {id:'amber',name:'Amber Nomad',shape:'round',liquid:'#DE8526',dens:1.05,conc:'Extrait de parfum',who:'For unisex',desc:'Warm amber, soft resins, a slow golden trail.',notes:'',price:1385,mrp:2499,img:'amber-car.jpg'},
+  {id:'miss',name:'Miss Desire',shape:'round',liquid:'#F6A4B8',conc:'Eau de parfum',who:'For her',desc:'A fragrance of graceful intensity.',notes:'',price:1385,mrp:2499,img:'miss-stone.jpg'},
+  {id:'vaan',name:'Vaan Noir',shape:'gem',liquid:'#EAB12C',conc:'Extrait de parfum',who:'',desc:'Deep gold, quiet depth, an after-hours signature.',notes:'',price:1847,mrp:2999,img:'vaan-books.jpg'},
+  {id:'silver',name:'Silver Elite',shape:'round',liquid:'#F4D83A',conc:'Eau de parfum',who:'For unisex',desc:'Crisp, polished and quietly confident.',notes:'',price:1385,mrp:2499,img:'silver-stone.jpg'},
+  {id:'golden',name:'Golden Temptation',shape:'tumbler',liquid:'#EBBB4C',conc:'Extrait de parfum',who:'For unisex',desc:'Warm spice, precious woods, a glow of white flowers.',notes:'',price:1847,mrp:2999,img:'golden-temptation.jpg'},
+  {id:'rouge',name:'Rouge Signature',shape:'square',liquid:'#F0E4A6',conc:'Eau de parfum',who:'For unisex',desc:'A bold expression of modern elegance.',notes:'',price:1385,mrp:2499,img:'pack-rouge.jpg'},
+  {id:'velvet',name:'Royal Velvet',shape:'round',liquid:'#A61E33',conc:'Eau de parfum',who:'',desc:'Plush, regal and unhurried.',notes:'',price:1385,mrp:2499,img:''}
 ];
-const HERO_I=3, NOTES_I=0;
+const HERO_I=3, NOTES_I=0, N=FRAGS.length;
 const NOTES=[
   {tier:0,name:'Bergamot',c:'#D9CB4E'},{tier:0,name:'Lemon',c:'#F1DE5C'},{tier:0,name:'Apple',c:'#9CC44C'},{tier:0,name:'Black currant',c:'#5A1F48'},{tier:0,name:'Pink pepper',c:'#E68C9C'},
   {tier:1,name:'Pineapple',c:'#F2B33D'},{tier:1,name:'Jasmine',c:'#F6F0E0'},{tier:1,name:'Birch',c:'#A8987F'},
@@ -607,7 +611,7 @@ const armReveals=()=>$$('.split,.rise').forEach(el=>io.observe(el));
 const cur=$('#cursor'),dotc=$('#dotc'),curTxt=$('#cursorTxt');
 let cx=innerWidth/2,cy=innerHeight/2,tx=cx,ty=cy,cursorMode='';
 if(fine)document.body.classList.add('has-cursor');
-function setCursor(m){if(m===cursorMode)return;cursorMode=m;cur.classList.toggle('big',m==='spritz'||m==='drag');cur.classList.toggle('link',m==='link');curTxt.textContent=m==='drag'?'Turn':'Spritz'}
+function setCursor(m){if(m===cursorMode)return;cursorMode=m;cur.classList.toggle('big',m==='spritz'||m==='drag'||m==='view');cur.classList.toggle('link',m==='link');curTxt.textContent=m==='drag'?'Turn':m==='view'?'View':'Spritz'}
 addEventListener('pointermove',e=>{if(e.pointerType==='mouse')document.body.classList.add('moved');tx=e.clientX;ty=e.clientY;dotc.style.transform=`translate(${tx}px,${ty}px)`});
 $$('.mag').forEach(b=>{
   b.addEventListener('pointermove',e=>{if(!fine)return;const r=b.getBoundingClientRect();b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.2}px,${(e.clientY-r.top-r.height/2)*.3}px)`});
@@ -654,7 +658,8 @@ function showFrag(i){
   if(i===collIdx)return;const first=collIdx<0;collIdx=i;const f=FRAGS[i];
   swEls.forEach((s,k)=>s.setAttribute('aria-current',k===i));
   cIdxEl.textContent=String(i+1).padStart(2,'0');
-  if(!first){const show=photoFlip?cImgA:cImgB,hide=photoFlip?cImgB:cImgA;photoFlip=!photoFlip;show.src='assets/img/'+f.img;show.alt=f.name;show.classList.remove('hid');hide.classList.add('hid')}
+  cImgA.parentElement.style.visibility=f.img?'visible':'hidden';
+  if(!first&&f.img){const show=photoFlip?cImgA:cImgB,hide=photoFlip?cImgB:cImgA;photoFlip=!photoFlip;show.src='assets/img/'+f.img;show.alt=f.name;show.classList.remove('hid');hide.classList.add('hid')}
   cCap.textContent=f.name;
   const swap=()=>{cName.innerHTML=nameHTML(f.name);cName.classList.remove('out');cName.classList.add('pre');
     cDesc.innerHTML=f.desc+(f.notes?`<em>${f.notes}</em>`:'');cDesc.style.opacity=1;
@@ -700,7 +705,7 @@ try{
 if(!renderer){
   document.documentElement.classList.add('no-webgl');
   const tick=now=>{if(lenis)lenis.raf(now);const nr=$('#notes').getBoundingClientRect();navTick(scrollY,nr.top<=40&&nr.bottom>40);parallax();
-    const cr=collSec.getBoundingClientRect();const e=clamp(-cr.top/(cr.height-innerHeight));showFrag(Math.min(FRAGS.length-1,Math.floor(e*FRAGS.length)));$('#cProg').style.transform=`scaleX(${e})`;
+    const cr=collSec.getBoundingClientRect();const e=clamp(-cr.top/(cr.height-innerHeight));showFrag(Math.min(N-1,Math.floor(e*N)));$('#cProg').style.transform=`scaleX(${e})`;
     const ne=clamp(-nr.top/(nr.height-innerHeight));tierEls.forEach((t,k)=>t.classList.toggle('on',ne>.15+k*.22));requestAnimationFrame(tick)};
   introBar.style.transform='scaleX(.6)';labelFonts.then(finishIntro);requestAnimationFrame(tick);
 }else{
@@ -719,8 +724,9 @@ camera.position.set(0,1,11);scene.add(camera);
   const env=new THREE.Scene();env.background=new THREE.Color('#d9d3c8');
   const card=(w,h,x,y,z,col,k)=>{const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({color:new THREE.Color(col).multiplyScalar(k),side:THREE.DoubleSide}));m.position.set(x,y,z);m.lookAt(0,0,0);env.add(m)};
   card(2.2,9,6,1,3,'#ffffff',3.2);
+  card(1.2,9,-5.5,1,3.5,'#ffffff',2.2);
   card(9,1.6,0,7,0,'#ffffff',2.2);
-  card(1.6,9,-6,.5,2,'#000000',1);
+  card(1.6,9,-6,.5,-1,'#000000',1);
   card(1.4,9,4.5,0,-6,'#000000',1);
   card(1.2,9,-3,0,-7,'#fff4e2',2);
   card(10,1,0,-3.6,5,'#f2e6d0',1.2);
@@ -787,35 +793,42 @@ function tickBackdrop(dt){
 }
 
 /* ---------- materials ---------- */
-/* the juice is opaque to three.js but fakes transmission by sampling the same backdrop with a refracted
-   screen position and Beer-Lambert tint, so the glass around it can still use real transmission */
+/* The juice is opaque to three.js but fakes transmission: it samples the same backdrop at a refracted screen
+   position with a Beer-Lambert tint, so the glass around it can still use real transmission. It also draws
+   the dip tube, which in the real bottles is visible running down the middle of the liquid. */
 const drawSize=new THREE.Vector2();
-const liquidMat=()=>new THREE.ShaderMaterial({uniforms:{...BDU,uRes:{value:drawSize},uTint:{value:new THREE.Color()},uDensity:{value:.7},uGlow:{value:.05}},
-  vertexShader:`varying vec3 vN,vP;void main(){vN=normalize(normalMatrix*normal);vec4 mv=modelViewMatrix*vec4(position,1.);vP=mv.xyz;gl_Position=projectionMatrix*mv;}`,
+const liquidMat=()=>new THREE.ShaderMaterial({uniforms:{...BDU,uRes:{value:drawSize},uTint:{value:new THREE.Color()},uDensity:{value:.55},uGlow:{value:.05},uTube:{value:0}},
+  vertexShader:`varying vec3 vN,vP,vAx;
+void main(){vN=normalize(normalMatrix*normal);vec4 mv=modelViewMatrix*vec4(position,1.);vP=mv.xyz;vAx=(modelViewMatrix*vec4(0.,position.y,0.,1.)).xyz;gl_Position=projectionMatrix*mv;}`,
   fragmentShader:`${BD_GLSL}
-uniform vec2 uRes;uniform vec3 uTint;uniform float uDensity,uGlow;varying vec3 vN,vP;
+uniform vec2 uRes;uniform vec3 uTint;uniform float uDensity,uGlow,uTube;varying vec3 vN,vP,vAx;
 void main(){
   vec3 N=normalize(vN);if(!gl_FrontFacing)N=-N;vec3 V=normalize(-vP);
   float nv=clamp(dot(N,V),0.,1.);
   vec2 s=gl_FragCoord.xy/uRes;
   vec2 rs=s-N.xy*(.03+.06*(1.-nv));
   vec3 bg=backdrop((rs-.5)/${BD_OVER.toFixed(2)}+.5);
-  float th=.55+.8*pow(nv,.7);
+  float th=1.45-.85*pow(nv,.6);   // light focuses through the middle, edges read deeper, as in the product shots
   vec3 col=bg*pow(max(uTint,vec3(.002)),vec3(uDensity*th));
   col+=uTint*uGlow*(.4+nv);
+  if(uTube>0.&&N.z>.2){
+    float d=abs(vP.x/-vP.z-vAx.x/-vAx.z)/(.0019*uTube);
+    float tube=1.-smoothstep(.55,1.,d),edge=smoothstep(.35,.75,d)*tube;
+    col=mix(col,col*.78+vec3(.12),tube*.5);col*=1.-edge*.25;
+  }
   vec3 L=normalize(vec3(.45,.7,.6));col+=pow(max(dot(N,normalize(L+V)),0.),90.)*.35;
   col=mix(col,col*.72,pow(1.-nv,3.)*.5);
   gl_FragColor=vec4(col,1.);
   #include <colorspace_fragment>
 }`});
-const glassMat=flat=>new THREE.MeshPhysicalMaterial({color:'#ffffff',metalness:0,roughness:.015,transmission:1,thickness:.9,ior:1.5,
-  attenuationColor:new THREE.Color('#fbf6ec'),attenuationDistance:4,specularIntensity:1,envMapIntensity:1.15,flatShading:!!flat});
+const glassMat=(o={})=>new THREE.MeshPhysicalMaterial({color:'#ffffff',metalness:0,roughness:.01,transmission:1,thickness:o.thickness??.9,ior:o.ior??1.5,
+  attenuationColor:new THREE.Color('#fbf6ec'),attenuationDistance:4,specularIntensity:1,envMapIntensity:1.2,flatShading:!!o.flat});
 const M={
   black:new THREE.MeshPhysicalMaterial({color:'#050505',metalness:0,roughness:.12,clearcoat:1,clearcoatRoughness:.04,envMapIntensity:.45}),
-  gold:new THREE.MeshPhysicalMaterial({color:'#D4AE62',metalness:1,roughness:.22,envMapIntensity:1.3}),
+  gold:new THREE.MeshPhysicalMaterial({color:'#D4AE62',metalness:1,roughness:.2,envMapIntensity:1.3}),
 };
 
-/* travertine plinth, echoing the stone in the brand photography */
+/* travertine, echoing the stone in the brand photography */
 function travertine(){
   const c=document.createElement('canvas');c.width=1024;c.height=512;const g=c.getContext('2d');
   g.fillStyle='#D8C9AE';g.fillRect(0,0,1024,512);
@@ -825,92 +838,143 @@ function travertine(){
   const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.wrapS=THREE.RepeatWrapping;t.anisotropy=8;return t}
 M.stone=new THREE.MeshStandardMaterial({map:travertine(),roughness:.9,metalness:0,envMapIntensity:.55});
 
-/* ---------- logo images for the printed labels ---------- */
+/* ---------- printed labels ---------- */
 const loadImg=src=>new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src});
 const [IMG_MARK,IMG_WORD]=await Promise.all([loadImg('assets/logo-mark.png'),loadImg('assets/logo-word.png')]);
-const INK='#141210';
-function tintImg(img){if(!img)return null;const c=document.createElement('canvas');c.width=img.width;c.height=img.height;const g=c.getContext('2d');g.drawImage(img,0,0);g.globalCompositeOperation='source-in';g.fillStyle=INK;g.fillRect(0,0,c.width,c.height);return c}
-const MARK=tintImg(IMG_MARK),WORD=tintImg(IMG_WORD);
+const INK='#141210',GOLD='#D2AE63';
+function tintImg(img,col){if(!img)return null;const c=document.createElement('canvas');c.width=img.width;c.height=img.height;const g=c.getContext('2d');g.drawImage(img,0,0);g.globalCompositeOperation='source-in';g.fillStyle=col;g.fillRect(0,0,c.width,c.height);return c}
+const MARK=tintImg(IMG_MARK,INK),WORD=tintImg(IMG_WORD,INK),MARK_G=tintImg(IMG_MARK,GOLD),WORD_G=tintImg(IMG_WORD,GOLD);
 
-/* label printed on the glass, laid out like the real bottles */
+/* black ink straight on the glass, laid out like the real round, gem and square bottles */
 function drawLabel(c,f,aspect){
   const W=1024,H=Math.round(W/aspect);c.width=W;c.height=H;const g=c.getContext('2d');g.clearRect(0,0,W,H);
   const words=f.name.toUpperCase().split(' ');
-  const k=Math.min(W*.92/1000,H*.94/1060);g.save();g.translate(W/2,H/2-1060*k/2);g.scale(k,k);
+  const k=Math.min(W*.96/1000,H*.96/1080);g.save();g.translate(W/2,H/2-1080*k/2);g.scale(k,k);
   g.fillStyle=INK;g.textAlign='center';g.textBaseline='alphabetic';
   if(MARK)g.drawImage(MARK,-62,0,124,170);
-  if(WORD)g.drawImage(WORD,-250,190,500,175);
-  g.font='600 34px Poppins, sans-serif';g.fillText('THE LUXURY OF FLORENCE',0,410);
+  if(WORD)g.drawImage(WORD,-265,186,530,185);
+  g.font='600 36px Poppins, sans-serif';g.fillText('THE LUXURY OF FLORENCE',0,410);
   let y=560;
-  words.forEach((w,i)=>{let fs=i===0?168:118;g.font=`700 ${fs}px "Libre Caslon Text", Georgia, serif`;const mw=g.measureText(w).width;if(mw>900){fs*=900/mw;g.font=`700 ${fs}px "Libre Caslon Text", Georgia, serif`}
-    g.fillText(w,0,y);y+=fs*.92});
-  g.font='600 50px Poppins, sans-serif';g.fillText(f.conc.toUpperCase(),0,y+20);
-  if(f.who){g.font='600 40px Poppins, sans-serif';g.fillText(f.who.toUpperCase(),0,y+110)}
-  g.font='600 38px Poppins, sans-serif';g.fillText('100ML | 3.4 fl oz',0,y+(f.who?165:110));
+  words.forEach((w,i)=>{let fs=i===0?172:124;g.font=`700 ${fs}px "Libre Caslon Text", Georgia, serif`;const mw=g.measureText(w).width;if(mw>960){fs*=960/mw;g.font=`700 ${fs}px "Libre Caslon Text", Georgia, serif`}
+    g.fillText(w,0,y);y+=fs*.9});
+  g.font='600 52px Poppins, sans-serif';g.fillText(f.conc.toUpperCase(),0,y+18);
+  if(f.who){g.font='600 42px Poppins, sans-serif';g.fillText(f.who.toUpperCase(),0,y+112)}
+  g.font='600 40px Poppins, sans-serif';g.fillText('100ML | 3.4 fl oz',0,y+(f.who?168:112));
+  g.restore();
+}
+/* Golden Temptation: black diamond with a gold rule and gold type */
+function drawDiamond(c,f,aspect){
+  const W=1024,H=Math.round(W/aspect);c.width=W;c.height=H;const g=c.getContext('2d');g.clearRect(0,0,W,H);
+  const s=Math.min(W,H)*.47,cx=W/2,cy=H/2;
+  const dia=k=>{g.beginPath();g.moveTo(cx,cy-s*k);g.lineTo(cx+s*k,cy);g.lineTo(cx,cy+s*k);g.lineTo(cx-s*k,cy);g.closePath()};
+  dia(1);g.fillStyle='#0b0a09';g.fill();g.lineWidth=s*.022;g.strokeStyle=GOLD;dia(.95);g.stroke();
+  g.save();g.translate(cx,cy);const k=s/470;g.scale(k,k);g.fillStyle=GOLD;g.textAlign='center';
+  if(MARK_G)g.drawImage(MARK_G,-26,-290,52,72);
+  if(WORD_G)g.drawImage(WORD_G,-110,-210,220,77);
+  g.font='600 15px Poppins, sans-serif';g.fillText('THE POINT OF OBSESSION',0,-112);
+  const words=f.name.toUpperCase().split(' ');
+  g.font='400 96px "Libre Caslon Text", Georgia, serif';g.fillText(words[0],0,-6);
+  g.font='400 62px "Libre Caslon Text", Georgia, serif';g.fillText(words.slice(1).join(' '),0,66);
+  g.font='500 30px Poppins, sans-serif';g.fillText(f.conc.toUpperCase(),0,128);
+  g.font='500 28px Poppins, sans-serif';g.fillText((f.who||'').toUpperCase(),0,170);
   g.restore();
 }
 
-/* ---------- the three real bottle shapes ---------- */
+/* ---------- the four real bottle shapes, measured from the product photography ---------- */
 const V2=(r,y)=>new THREE.Vector2(r,y);
-function arc(out,cx,cy,rx,ry,a0,a1,n){for(let i=0;i<=n;i++){const a=a0+(a1-a0)*i/n;out.push(V2(cx+Math.cos(a)*rx,cy+Math.sin(a)*ry))}}
-function flatten(geo){const g=geo.toNonIndexed();g.computeVertexNormals();return g}
+const PX=1/150; // photo pixels -> scene units (Amber Nomad body = 189px wide)
+function arc(out,cx,cy,rx,ry,a0,a1,n,stopY){for(let i=0;i<=n;i++){const a=a0+(a1-a0)*i/n,x=cx+Math.cos(a)*rx,y=cy+Math.sin(a)*ry;if(stopY!==undefined&&y>stopY)break;out.push(V2(x,y))}}
+const px=pts=>pts.map(v=>v.multiplyScalar(PX));
+/* loft a plan polygon through (scale,y) sections: faceted glass with crisp chamfers */
+function loft(plan,prof){
+  const pos=[],n=plan.length,rings=prof.map(([k,y])=>plan.map(([x,z])=>[x*k*PX,y*PX,z*k*PX]));
+  const tri=(a,b,c)=>pos.push(...a,...b,...c);
+  for(let i=0;i<rings.length-1;i++)for(let j=0;j<n;j++){const a=rings[i][j],b=rings[i][(j+1)%n],c=rings[i+1][(j+1)%n],d=rings[i+1][j];tri(a,b,c);tri(a,c,d)}
+  const r0=rings[0],y0=r0[0][1],r1=rings[rings.length-1],y1=r1[0][1];
+  for(let j=0;j<n;j++){tri([0,y0,0],r0[(j+1)%n],r0[j]);tri([0,y1,0],r1[j],r1[(j+1)%n])}
+  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.computeVertexNormals();return g;
+}
+const gemPlan=(fw,X,Z)=>{const c=X-fw;return[[fw,Z],[X,Z-c],[X,-(Z-c)],[fw,-Z],[-fw,-Z],[-X,-(Z-c)],[-X,Z-c],[-fw,Z]]};
 
-function buildRound(){  // Aura Elegance, Amber Nomad, Miss Desire, Silver Elite
-  const p=[V2(0,0)];arc(p,.9,.1,.1,.1,-Math.PI/2,0,6);p.push(V2(1,1.5));arc(p,.36,1.5,.64,.46,0,Math.PI/2,14);p.push(V2(.32,1.98),V2(.32,2.12));
-  const l=[V2(0,.24)];arc(l,.82,.32,.08,.08,-Math.PI/2,0,5);l.push(V2(.9,1.5));
-  for(let i=1;i<=12;i++){const a=i/12*Math.PI/2,y=1.5+Math.sin(a)*.4;if(y>1.8)break;l.push(V2(.3+Math.cos(a)*.6,y))}
-  l.push(V2(0,1.8));
-  const cap=new THREE.Group();
-  const collar=new THREE.Mesh(new THREE.CylinderGeometry(.5,.5,.42,64),glassMat());collar.position.y=.21;cap.add(collar);
-  const stem=new THREE.Mesh(new THREE.CylinderGeometry(.27,.27,.46,40),M.black);stem.position.y=.21;cap.add(stem);
-  const top=new THREE.Mesh(new THREE.LatheGeometry([V2(0,0),V2(.56,0),V2(.62,.05),V2(.62,.27),V2(.57,.32),V2(0,.32)],64),M.black);top.position.y=.42;cap.add(top);
-  return{glass:new THREE.LatheGeometry(p,96),liquid:new THREE.LatheGeometry(l,96),cap,capY:2.1,
-    decal:new THREE.CylinderGeometry(1.004,1.004,1.3,64,1,true,-.78,1.56),decalY:.86,decalZ:0,decalAspect:1.56/1.3,nozzleY:2.2};
-}
-function buildOct(){  // Flora Bella, Vaan Noir
-  const tf=g=>{g.rotateY(Math.PI/8);g.scale(1.2,1,.64);return flatten(g)};
-  const glass=tf(new THREE.LatheGeometry([V2(0,0),V2(.82,0),V2(1,.17),V2(1,1.6),V2(.74,1.9),V2(.36,1.98),V2(.33,2.04)],8));
-  const liquid=tf(new THREE.LatheGeometry([V2(0,.2),V2(.76,.2),V2(.9,.32),V2(.9,1.58),V2(.68,1.8),V2(0,1.8)],8));
-  const cap=new THREE.Group();
-  const collar=new THREE.Mesh(new THREE.CylinderGeometry(.36,.38,.16,48),M.gold);collar.position.y=.08;cap.add(collar);
-  const noz=new THREE.Mesh(new THREE.CylinderGeometry(.09,.09,.3,24),M.gold);noz.position.y=.3;cap.add(noz);
-  const cg=new THREE.LatheGeometry([V2(0,0),V2(.4,0),V2(.52,.12),V2(.52,.44),V2(.42,.56),V2(0,.56)],8);cg.rotateY(Math.PI/8);cg.scale(1.18,1,.7);
-  const capGlass=new THREE.Mesh(flatten(cg),glassMat(true));capGlass.position.y=.16;cap.add(capGlass);
-  const apo=Math.cos(Math.PI/8)*.64,face=2*Math.sin(Math.PI/8)*1.2;
-  return{glass,liquid,cap,capY:2.02,flat:true,decal:new THREE.PlaneGeometry(face*.98,1.25),decalY:.9,decalZ:apo+.004,decalAspect:face*.98/1.25,nozzleY:2.2};
-}
-function buildSquare(){  // Majesty Noir, Rouge Signature
-  const glass=new RoundedBoxGeometry(1.62,1.94,1.02,5,.08);glass.translate(0,.97,0);
-  const liquid=new RoundedBoxGeometry(1.42,1.54,.82,4,.05);liquid.translate(0,.22+.77,0);
-  const cap=new THREE.Group();
-  const neck=new THREE.Mesh(new THREE.CylinderGeometry(.3,.3,.2,40),M.black);neck.position.y=.1;cap.add(neck);
-  const top=new THREE.Mesh(new RoundedBoxGeometry(.94,.8,.94,4,.06),M.black);top.position.y=.6;cap.add(top);
-  return{glass,liquid,cap,capY:1.94,decal:new THREE.PlaneGeometry(1.36,1.3),decalY:.92,decalZ:.514,decalAspect:1.36/1.3,nozzleY:2.1};
-}
-const stage=new THREE.Group();scene.add(stage);
-const spin=new THREE.Group();stage.add(spin);
-const SHAPES={};
-for(const [name,def] of Object.entries({round:buildRound(),oct:buildOct(),square:buildSquare()})){
-  const grp=new THREE.Group();grp.visible=false;spin.add(grp);
-  const liq=new THREE.Mesh(def.liquid,liquidMat());grp.add(liq);
-  const gl=new THREE.Mesh(def.glass,glassMat(def.flat));grp.add(gl);
+const BUILD={
+  round(){ // Amber Nomad, Aura Elegance, Miss Desire, Silver Elite: tall flask, thick base, clear collar, black cap
+    const p=[V2(0,0),V2(84,0)];arc(p,84,10,10.5,10,-Math.PI/2,0,6);p.push(V2(94.5,293));arc(p,24,293,70.5,52,0,Math.PI/2,18);p.push(V2(24,352));
+    const l=[V2(0,62),V2(80,62)];arc(l,80,70,8,8,-Math.PI/2,0,5);l.push(V2(88,293));arc(l,22,293,66,46,0,Math.PI/2,18,334);l.push(V2(0,334));
+    const cap=new THREE.Group();
+    const collar=new THREE.Mesh(new THREE.CylinderGeometry(52*PX,52*PX,122*PX,72),glassMat({thickness:.25,ior:1.25}));collar.position.y=61*PX;cap.add(collar);
+    const stem=new THREE.Mesh(new THREE.CylinderGeometry(23*PX,23*PX,118*PX,40),M.black);stem.position.y=60*PX;cap.add(stem);
+    const top=new THREE.Mesh(new THREE.LatheGeometry(px([V2(0,0),V2(64,0),V2(69,5),V2(69,33),V2(64,38),V2(0,38)]),72),M.black);top.position.y=122*PX;cap.add(top);
+    return{glass:new THREE.LatheGeometry(px(p),110),liquid:new THREE.LatheGeometry(px(l),110),cap,capY:352*PX,height:513*PX,tube:1,
+      decal:new THREE.CylinderGeometry(95.3*PX,95.3*PX,215*PX,64,1,true,-.7,1.4),decalY:178*PX,decalZ:0,decalAspect:(1.4*95.3)/215,nozzleY:360*PX};
+  },
+  gem(){ // Flora Bella, Vaan Noir: faceted gem with chamfered shoulders, gold collar, clear faceted cap
+    const glass=loft(gemPlan(100,148,80),[[.68,0],[1,44],[1,296],[.54,368]]);
+    const liquid=loft(gemPlan(90,134,68),[[.66,30],[1,62],[1,290],[.62,350]]);
+    const cap=new THREE.Group();
+    const collar=new THREE.Mesh(new THREE.CylinderGeometry(44*PX,46*PX,48*PX,64),M.gold);collar.position.y=24*PX;cap.add(collar);
+    for(const yy of [10,38]){const r=new THREE.Mesh(new THREE.TorusGeometry(46*PX,2*PX,8,64),M.gold);r.rotation.x=Math.PI/2;r.position.y=yy*PX;cap.add(r)}
+    const noz=new THREE.Mesh(new THREE.CylinderGeometry(13*PX,13*PX,60*PX,24),M.gold);noz.position.y=70*PX;cap.add(noz);
+    const cg=new THREE.Mesh(loft(gemPlan(56,84,52),[[.82,0],[1,14],[1,72],[.8,86]]),glassMat({flat:true,thickness:.5}));cg.position.y=46*PX;cap.add(cg);
+    return{glass,liquid,cap,capY:368*PX,height:500*PX,tube:1,flat:true,
+      decal:new THREE.PlaneGeometry(190*PX,250*PX),decalY:172*PX,decalZ:80*PX+.004,decalAspect:190/250,nozzleY:400*PX};
+  },
+  square(){ // Majesty Noir, Rouge Signature: rectangular block, black neck and black cap
+    const glass=new RoundedBoxGeometry(1.75,2.73,1.1,5,.1);glass.translate(0,1.365,0);
+    const liquid=new RoundedBoxGeometry(1.55,2.18,.9,4,.06);liquid.translate(0,.26+1.09,0);
+    const cap=new THREE.Group();
+    const neck=new THREE.Mesh(new THREE.CylinderGeometry(.39,.39,.5,48),M.black);neck.position.y=.25;cap.add(neck);
+    const top=new THREE.Mesh(new RoundedBoxGeometry(.96,.56,.96,4,.05),M.black);top.position.y=.5+.28;cap.add(top);
+    return{glass,liquid,cap,capY:2.73,height:3.79,tube:1,
+      decal:new THREE.PlaneGeometry(1.45,1.7),decalY:1.25,decalZ:.554,decalAspect:1.45/1.7,nozzleY:2.8};
+  },
+  tumbler(){ // Golden Temptation: carved crystal tumbler, liquid sits in the lower half
+    const R=1.05,H=3,SEG=360,RINGS=150,pos=[],idx=[];
+    const fr=x=>x-Math.floor(x);
+    // hand-cut crystal: fine diagonal flutes whose direction flips band to band, like the real bottle
+    const rad=(th,y)=>{const u=th/(Math.PI*2)*18,band=Math.floor(y/.62),dir=band%2?1:-1;
+      const t=Math.abs(2*fr(u+dir*y*1.6+band*.5)-1);const m=smooth(.14,.3,y)*(1-smooth(2.74,2.86,y));return R*(1-.028*(1-t*t)*m)};
+    for(let j=0;j<=RINGS;j++){const y=j/RINGS*H;for(let i=0;i<=SEG;i++){const th=i/SEG*Math.PI*2,r=rad(th,y);pos.push(Math.sin(th)*r,y,Math.cos(th)*r)}}
+    for(let j=0;j<RINGS;j++)for(let i=0;i<SEG;i++){const a=j*(SEG+1)+i,b=a+1,c=a+SEG+2,d=a+SEG+1;idx.push(a,b,c,a,c,d)}
+    const cb=pos.length/3;pos.push(0,0,0);for(let i=0;i<SEG;i++)idx.push(cb,i+1,i);
+    const ct=pos.length/3;pos.push(0,H,0);const top0=RINGS*(SEG+1);for(let i=0;i<SEG;i++)idx.push(ct,top0+i,top0+i+1);
+    const glass=new THREE.BufferGeometry();glass.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));glass.setIndex(idx);glass.computeVertexNormals();
+    const liquid=new THREE.CylinderGeometry(.86,.86,1.32,96);liquid.translate(0,.34+.66,0);
+    return{glass,liquid,cap:new THREE.Group(),capY:H,height:H,tube:0,glassOpts:{thickness:1.6,ior:1.55},label:'diamond',
+      decal:new THREE.CylinderGeometry(R+.012,R+.012,1.55,64,1,true,-.74,1.48),decalY:1.05,decalZ:0,decalAspect:(1.48*(R+.012))/1.55,nozzleY:H};
+  }
+};
+
+function makeBottle(f){
+  const def=BUILD[f.shape]();
+  const root=new THREE.Group(),grp=new THREE.Group();root.add(grp);
+  const lm=liquidMat();lm.uniforms.uTube.value=def.tube;
+  const liq=new THREE.Mesh(def.liquid,lm);grp.add(liq);
+  const gl=new THREE.Mesh(def.glass,glassMat({flat:def.flat,...def.glassOpts}));grp.add(gl);
   const lc=document.createElement('canvas'),lt=new THREE.CanvasTexture(lc);lt.colorSpace=THREE.SRGBColorSpace;lt.anisotropy=8;
   const decal=new THREE.Mesh(def.decal,new THREE.MeshBasicMaterial({map:lt,transparent:true,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-2}));
   decal.position.set(0,def.decalY,def.decalZ);decal.renderOrder=3;grp.add(decal);
   def.cap.position.y=def.capY;grp.add(def.cap);
-  SHAPES[name]={grp,liq,gl,decal,lc,lt,cap:def.cap,capY:def.capY,aspect:def.decalAspect,nozzleY:def.nozzleY,frag:null};
+  const b={f,root,grp,liq,lm,gl,lc,lt,cap:def.cap,capY:def.capY,nozzleY:def.nozzleY,height:def.height,aspect:def.decalAspect,label:def.label,
+    tint:new THREE.Color(f.liquid).convertSRGBToLinear(),pick:[gl,liq,def.cap]};
+  lm.uniforms.uTint.value.copy(b.tint);lm.uniforms.uDensity.value=f.dens??.55;drawB(b);return b;
 }
-function labelFor(shape,f,force){const S=SHAPES[shape];if(S.frag===f&&!force)return;S.frag=f;drawLabel(S.lc,f,S.aspect);S.lt.needsUpdate=true}
+function drawB(b){(b.label==='diamond'?drawDiamond:drawLabel)(b.lc,b.f,b.aspect);b.lt.needsUpdate=true}
+const shTex=(()=>{const c=document.createElement('canvas');c.width=c.height=256;const g=c.getContext('2d');const r=g.createRadialGradient(128,128,0,128,128,128);r.addColorStop(0,'rgba(40,25,10,.55)');r.addColorStop(.45,'rgba(40,25,10,.22)');r.addColorStop(1,'rgba(40,25,10,0)');g.fillStyle=r;g.fillRect(0,0,256,256);return new THREE.CanvasTexture(c)})();
+const shadowMesh=(w,d)=>{const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),new THREE.MeshBasicMaterial({map:shTex,transparent:true,depthWrite:false}));m.rotation.x=-Math.PI/2;m.position.y=.004;return m};
 
-/* plinth, contact shadow and the landing ring */
+/* ---------- hero / notes stage: one bottle on a plinth ---------- */
+const stage=new THREE.Group();scene.add(stage);
+const spin=new THREE.Group();stage.add(spin);
+const heroB=makeBottle(FRAGS[HERO_I]),notesB=makeBottle(FRAGS[NOTES_I]);
+spin.add(heroB.root,notesB.root);notesB.root.visible=false;
+let shown=heroB,target=heroB,morph=0;
 const PR=1.85,PH=.5;
 const plinth=new THREE.Mesh(new THREE.CylinderGeometry(PR,PR*1.01,PH,128,1),M.stone);plinth.position.y=-PH/2;stage.add(plinth);
-const shTex=(()=>{const c=document.createElement('canvas');c.width=c.height=256;const g=c.getContext('2d');const r=g.createRadialGradient(128,128,0,128,128,128);r.addColorStop(0,'rgba(40,25,10,.55)');r.addColorStop(.45,'rgba(40,25,10,.22)');r.addColorStop(1,'rgba(40,25,10,0)');g.fillStyle=r;g.fillRect(0,0,256,256);return new THREE.CanvasTexture(c)})();
-const shadow=new THREE.Mesh(new THREE.PlaneGeometry(2.9,2.1),new THREE.MeshBasicMaterial({map:shTex,transparent:true,depthWrite:false}));shadow.rotation.x=-Math.PI/2;shadow.position.y=.004;stage.add(shadow);
+const shadow=shadowMesh(2.9,2.1);stage.add(shadow);
 const ring=new THREE.Mesh(new THREE.RingGeometry(.985,1,128),new THREE.MeshBasicMaterial({color:'#BD0000',transparent:true,opacity:0,depthWrite:false,side:THREE.DoubleSide}));ring.rotation.x=-Math.PI/2;ring.position.y=.008;stage.add(ring);
 
 /* note orbs and red orbit rings for the dark set */
-const orbGeo=new THREE.SphereGeometry(1,40,24),TY=[2.95,1.5,.35],TR=[1.95,2.15,2.35];
+const orbGeo=new THREE.SphereGeometry(1,40,24),TY=[3.55,2,.6],TR=[1.95,2.15,2.35];
 const orbs=NOTES.map((n,i)=>{
   const m=new THREE.Mesh(orbGeo,new THREE.MeshPhysicalMaterial({color:n.c,roughness:.18,clearcoat:1,clearcoatRoughness:.05,emissive:new THREE.Color(n.c),emissiveIntensity:.15}));
   m.scale.setScalar(0);stage.add(m);const same=NOTES.filter(x=>x.tier===n.tier);
@@ -918,7 +982,15 @@ const orbs=NOTES.map((n,i)=>{
 });
 const orbitRings=TY.map((y,i)=>{const r=new THREE.Mesh(new THREE.TorusGeometry(TR[i],.006,6,200),new THREE.MeshBasicMaterial({color:'#e01010',transparent:true,opacity:0,depthWrite:false}));r.rotation.x=Math.PI/2;r.position.y=y;stage.add(r);return r});
 
-/* mist */
+/* ---------- collection: every product on one travertine turntable ---------- */
+const carousel=new THREE.Group();scene.add(carousel);carousel.visible=false;
+const CR=2.8,STEP=Math.PI*2/N;
+const disk=new THREE.Mesh(new THREE.CylinderGeometry(CR+1.05,CR+1.1,.42,180,1),M.stone);disk.position.y=-.21;carousel.add(disk);
+const turn=new THREE.Group();carousel.add(turn);
+const CB=FRAGS.map((f,i)=>{const b=makeBottle(f),a=i*STEP;b.root.position.set(Math.sin(a)*CR,0,Math.cos(a)*CR);b.root.rotation.y=a;
+  const sh=shadowMesh(2.4,1.8);b.root.add(sh);b.sh=sh;turn.add(b.root);b.i=i;return b});
+
+/* ---------- mist ---------- */
 const MN=700,mPos=new Float32Array(MN*3),mVel=new Float32Array(MN*3),mLife=new Float32Array(MN).fill(-1),mAlpha=new Float32Array(MN),mSize=new Float32Array(MN);
 const mGeo=new THREE.BufferGeometry();mGeo.setAttribute('position',new THREE.BufferAttribute(mPos,3));mGeo.setAttribute('alpha',new THREE.BufferAttribute(mAlpha,1));mGeo.setAttribute('size',new THREE.BufferAttribute(mSize,1));
 const mMat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,uniforms:{uPx:{value:innerHeight*DPR},uC:{value:new THREE.Color('#ffffff')},uDark:{value:0}},
@@ -930,9 +1002,10 @@ void main(){
   #include <colorspace_fragment>
 }`});
 const mist=new THREE.Points(mGeo,mMat);mist.frustumCulled=false;scene.add(mist);
-let mHead=0;const _v=new THREE.Vector3(),fwd=new THREE.Vector3(.55,.35,1).normalize();
-function spritz(n=360){
-  const S=SHAPES[shownShape];_v.set(0,S.nozzleY,0);S.grp.localToWorld(_v);
+let mHead=0;const _v=new THREE.Vector3(),_q=new THREE.Quaternion(),fwdL=new THREE.Vector3(.55,.35,1).normalize(),fwd=new THREE.Vector3();
+function spritz(b,n=360){
+  _v.set(0,b.nozzleY,0);b.grp.localToWorld(_v);b.grp.getWorldQuaternion(_q);fwd.copy(fwdL).applyQuaternion(_q);
+  mMat.uniforms.uC.value.set(b.f.liquid);
   for(let i=0;i<n;i++){const k=mHead;mHead=(mHead+1)%MN;
     mPos[k*3]=_v.x;mPos[k*3+1]=_v.y;mPos[k*3+2]=_v.z;
     const sp=2.2+Math.random()*3.2;mVel[k*3]=(fwd.x+(Math.random()-.5)*.6)*sp;mVel[k*3+1]=(fwd.y+(Math.random()-.5)*.45)*sp;mVel[k*3+2]=(fwd.z+(Math.random()-.5)*.3)*sp;
@@ -945,7 +1018,7 @@ function tickMist(dt){
     mPos[k*3]+=mVel[k*3]*dt;mPos[k*3+1]+=mVel[k*3+1]*dt;mPos[k*3+2]+=mVel[k*3+2]*dt;mSize[k]+=dt*2;mAlpha[k]=smooth(0,.06,L)*(1-smooth(.4,2,L))}
   mGeo.attributes.position.needsUpdate=mGeo.attributes.alpha.needsUpdate=mGeo.attributes.size.needsUpdate=true;
 }
-let capPop=0;function doSpritz(){capPop=1;setTimeout(()=>spritz(),reduce?0:240)}
+const pops=new Map();function doSpritz(b){pops.set(b,1);setTimeout(()=>spritz(b),reduce?0:240)}
 
 function resize(){
   renderer.setSize(innerWidth,innerHeight,false);renderer.getDrawingBufferSize(drawSize);
@@ -953,30 +1026,41 @@ function resize(){
 }
 addEventListener('resize',resize);resize();
 
-/* ---------- shape + colour state ---------- */
-let shownShape=FRAGS[HERO_I].shape,targetShape=shownShape,morph=0;SHAPES[shownShape].grp.visible=true;
-const tint=new THREE.Color(FRAGS[HERO_I].liquid),tintT=new THREE.Color(),tintLin=new THREE.Color();
-let curFrag=FRAGS[HERO_I];labelFor(shownShape,curFrag);
-
 /* ---------- interaction ---------- */
-let yaw=-.35,vel=0,drag=false,lastX=0,moved=0,mx=0,my=0,hovering=false,interactive=true;
+let yaw=-.35,vel=0,drag=false,lastX=0,moved=0,mx=0,my=0,hover=null,interactive=true,inColl=false,activeI=0,pYaw=0;
 const ray=new THREE.Raycaster(),ndc=new THREE.Vector2();
-const hitBottle=(x,y)=>{ndc.set(x/innerWidth*2-1,-(y/innerHeight)*2+1);ray.setFromCamera(ndc,camera);const S=SHAPES[shownShape];return ray.intersectObjects([S.gl,S.cap],true).length>0};
-addEventListener('pointerdown',e=>{if(!interactive||e.target.closest('a,button,input,.card,.tiers'))return;
-  if(hitBottle(e.clientX,e.clientY)||e.target.closest('#hero')){drag=true;lastX=e.clientX;moved=0;vel=0}});
+function pickAt(x,y){
+  ndc.set(x/innerWidth*2-1,-(y/innerHeight)*2+1);ray.setFromCamera(ndc,camera);
+  const list=inColl?CB:[shown];
+  let best=null,bd=1e9;
+  for(const b of list){if(!b.root.visible)continue;const h=ray.intersectObjects(b.pick,true)[0];if(h&&h.distance<bd){bd=h.distance;best=b}}
+  return best;
+}
+addEventListener('pointerdown',e=>{if(!interactive||e.target.closest('a,button,input,.card,.tiers,.swatches'))return;
+  if(pickAt(e.clientX,e.clientY)||e.target.closest('#hero')){drag=true;lastX=e.clientX;moved=0;vel=0}});
 addEventListener('pointermove',e=>{
-  if(drag){const d=e.clientX-lastX;lastX=e.clientX;moved+=Math.abs(d);vel=d*.006;yaw+=vel}
-  hovering=fine&&interactive&&!e.target.closest('a,button,input')&&hitBottle(e.clientX,e.clientY);
+  if(drag){const d=e.clientX-lastX;lastX=e.clientX;moved+=Math.abs(d);vel=d*.006;if(inColl)pYaw+=vel;else yaw+=vel}
+  hover=fine&&interactive&&!e.target.closest('a,button,input')?pickAt(e.clientX,e.clientY):null;
 });
-addEventListener('pointerup',e=>{if(drag&&moved<6&&interactive&&hitBottle(e.clientX,e.clientY))doSpritz();drag=false});
+addEventListener('pointerup',e=>{
+  if(drag&&moved<6&&interactive){const b=pickAt(e.clientX,e.clientY);
+    if(b){if(inColl&&b.i!==activeI)collScrollTo(b.i);else doSpritz(b)}}
+  drag=false});
 addEventListener('pointercancel',()=>drag=false);
 
 /* ---------- frame ---------- */
 const notesSec=$('#notes'),pillSec=$('#pillars'),cProg=$('#cProg'),oilN=$('#oilN');
 const easeOutBack=t=>{const c1=1.3,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2)};
 const easeOutExpo=t=>t>=1?1:1-Math.pow(2,-10*t);
+const wrapA=a=>Math.atan2(Math.sin(a),Math.cos(a));
 let last=performance.now(),landed=false,ringT=-1,firstFrame=true,lastTier=-2,lastOil=-1,lastSec='';
 const v3=new THREE.Vector3(),v4=new THREE.Vector3();
+
+function capPose(b,lift,dt){
+  let p=pops.get(b)||0;if(p>0){p=Math.max(0,p-dt*1.5);pops.set(b,p)}
+  const pop=p>0?Math.sin((1-p)*Math.PI):0;
+  b.cap.position.y=b.capY+lift*1.1+pop*.6;b.cap.rotation.y=lift*.6+pop*.8;b.cap.rotation.z=lift*.08;
+}
 
 function frame(now){
   requestAnimationFrame(frame);
@@ -994,6 +1078,7 @@ function frame(now){
   const cIn=smooth(0,1,clamp(1-cr.top/H)),cE=clamp(-cr.top/(cr.height-H));
   const darkK=nIn*(1-cIn);
   const covered=pr.top<=0;
+  inColl=cIn>.6;
   interactive=!covered&&(heroP<.7||cIn>.9);
   navTick(y,darkK>.5&&nr.top<=40);
   const sec=pr.top<H*.5?'#pillars':cIn>.5?'#collection':nIn>.5?'#notes':'#hero';
@@ -1011,53 +1096,70 @@ function frame(now){
   if(activeTier!==lastTier){lastTier=activeTier;tierEls.forEach((el,k)=>el.classList.toggle('on',k<=activeTier))}
   const oil=Math.round(35*smooth(.05,.5,nE)*nIn);if(oil!==lastOil){lastOil=oil;oilN.innerHTML=oil+'<sup>%</sup>'}
 
-  /* which fragrance is on stage */
-  const ci=Math.min(FRAGS.length-1,Math.floor(cE*FRAGS.length));
-  if(cIn>.5)showFrag(ci);else if(cIn<.2)showFrag(0);
-  cProg.style.transform=`scaleX(${cE.toFixed(4)})`;
-  const f=cIn>.5?FRAGS[ci]:nIn>.5?FRAGS[NOTES_I]:FRAGS[HERO_I];
-  if(f!==curFrag){curFrag=f;targetShape=f.shape;if(targetShape===shownShape)labelFor(shownShape,f)}
-  if(targetShape!==shownShape&&morph===0)morph=.0001;
+  /* hero <-> notes bottle swap (squash out, pop in) */
+  target=nIn>.5?notesB:heroB;
+  if(target!==shown&&morph===0)morph=.0001;
   if(morph>0){morph=Math.min(1,morph+dt*(reduce?10:2.2));
-    if(morph>=.5&&shownShape!==targetShape){SHAPES[shownShape].grp.visible=false;shownShape=targetShape;labelFor(shownShape,curFrag);SHAPES[shownShape].grp.visible=true}
-    if(morph>=1)morph=targetShape!==shownShape?.0001:0}
+    if(morph>=.5&&shown!==target){shown.root.visible=false;shown=target;shown.root.visible=true}
+    if(morph>=1)morph=target!==shown?.0001:0}
   const ms=morph===0?1:morph<.5?1-smooth(0,.5,morph):easeOutBack(clamp((morph-.5)*2));
-  SHAPES[shownShape].grp.scale.set(ms,Math.max(.001,ms),ms);
-  tintT.set(curFrag.liquid);tint.lerp(tintT,1-Math.exp(-dt*5));tintLin.copy(tint).convertSRGBToLinear();
-  for(const S of Object.values(SHAPES)){S.liq.material.uniforms.uTint.value.copy(tintLin);S.liq.material.uniforms.uGlow.value=.04+darkK*.35}
-  mMat.uniforms.uC.value.copy(tint);mMat.uniforms.uDark.value=darkK;
+  shown.grp.scale.set(ms,Math.max(.001,ms),ms);
+
+  /* collection: turntable position with a dwell on each bottle */
+  const pf=cE*N-.5,base=Math.floor(pf),fr=pf-base;
+  const eased=clamp(base+smooth(.55,.95,fr),0,N-1);
+  const ci=Math.round(eased);
+  if(cIn>.5)showFrag(ci);else if(cIn<.2)showFrag(0);
+  activeI=cIn>.5?ci:0;
+  cProg.style.transform=`scaleX(${cE.toFixed(4)})`;
+  const activeF=FRAGS[activeI];
 
   /* backdrop */
-  BD.target=(cIn>.5?'light':nIn>.5?'dark':'light')+'|'+(cIn>.5?curFrag.name.split(' ')[0].toUpperCase():nIn>.5?'NOTES':'LUSSO');
+  BD.target=(cIn>.5?'light':nIn>.5?'dark':'light')+'|'+(cIn>.5?activeF.name.split(' ')[0].toUpperCase():nIn>.5?'NOTES':'LUSSO');
   tickBackdrop(dt);
-  BDU.uOff.value.set(-mx*.01,my*.008);BDU.uDark.value=darkK;BDU.uArch.value=1-darkK;
+  BDU.uOff.value.set(-mx*.01,my*.008);BDU.uDark.value=darkK;BDU.uArch.value=1-darkK*.999-cIn*.35;
+  for(const b of [heroB,notesB])b.lm.uniforms.uGlow.value=.04+darkK*.35;
 
-  /* layout: hero -> notes -> collection */
-  const camZ0=narrow?15.5:11.6;
+  /* layout: hero -> notes */
+  const camZ0=narrow?16.5:12.2;
   const halfH=camZ0*Math.tan(THREE.MathUtils.degToRad(14)),halfW=halfH*W/H;
-  const P={
-    hero:{x:narrow?0:halfW*.34,y:narrow?-halfH*.34:-1.35,z:camZ0,s:narrow?.62:1},
-    notes:{x:narrow?0:halfW*.18,y:narrow?-.2:-1.5,z:narrow?15.5:12,s:narrow?.6:1},
-    coll:{x:narrow?0:-halfW*.26,y:narrow?-.25:-1.4,z:narrow?15:11.6,s:narrow?.7:1}
-  };
-  const L3=k=>lerp(lerp(P.hero[k],P.notes[k],nIn),P.coll[k],cIn);
+  const P={hero:{x:narrow?0:halfW*.34,y:narrow?-halfH*.4:-1.6,s:narrow?.6:1},notes:{x:narrow?0:halfW*.18,y:narrow?-.6:-1.75,s:narrow?.55:.95}};
+  const L2=k=>lerp(P.hero[k],P.notes[k],nIn);
   const drop=(1-dropK)*6.5;
-  stage.position.set(L3('x')+(narrow?0:mx*.15),L3('y')+(reduce?0:Math.sin(t*.9)*.025),0);
-  stage.scale.setScalar(L3('s'));
+  const stageK=1-smooth(.1,.5,cIn);
+  stage.visible=stageK>.005;
+  stage.position.set(L2('x')+(narrow?0:mx*.15),L2('y')+(reduce?0:Math.sin(t*.9)*.025)-(1-stageK)*2.5,0);
+  stage.scale.setScalar(L2('s')*Math.max(.001,stageK));
   spin.position.y=drop;
-  const orbitA=(nE-.5)*.5*darkK,camZ=L3('z');
-  camera.position.set(Math.sin(orbitA)*camZ+mx*.3,1+my*-.25+darkK*.8,Math.cos(orbitA)*camZ);
-  camera.lookAt(0,.1+darkK*.35,0);
-  const collSpin=cIn>.01?cE*FRAGS.length*Math.PI:0;
-  if(!drag){vel*=.94;yaw+=vel+(reduce?0:dt*.2*(1-darkK*.5)*(1-cIn))}
-  spin.rotation.y=yaw+collSpin+(1-dropK)*Math.PI*2.5;
+  if(!drag||inColl){vel*=.94;if(!inColl)yaw+=vel+(reduce?0:dt*.2*(1-darkK*.5))}
+  spin.rotation.y=yaw+(1-dropK)*Math.PI*2.5;
   spin.rotation.z=(1-dropK)*.3;
+  capPose(shown,capLift,dt);
 
-  /* cap: notes lift + spritz pop */
-  capPop=Math.max(0,capPop-dt*1.5);
-  const pop=capPop>0?Math.sin((1-capPop)*Math.PI):0;
-  const S=SHAPES[shownShape];
-  S.cap.position.y=S.capY+capLift*1.1+pop*.7;S.cap.rotation.y=capLift*.6+pop*.8;S.cap.rotation.z=capLift*.08;
+  /* camera */
+  const orbitA=(nE-.5)*.5*darkK,camZ=lerp(lerp(camZ0,narrow?16.5:12.6,nIn),narrow?17.5:13.4,cIn);
+  camera.position.set(Math.sin(orbitA)*camZ+mx*.3,1+my*-.25+darkK*.8+cIn*1.9,Math.cos(orbitA)*camZ);
+  camera.lookAt(0,.1+darkK*.35+cIn*.2,0);
+
+  /* carousel */
+  carousel.visible=cIn>.02;
+  if(carousel.visible){
+    const rise=1-smooth(.2,.85,cIn);
+    carousel.position.set(narrow?0:-halfW*.4,(narrow?-.9:-1.75)-rise*7,narrow?-3.3:-2.6);
+    carousel.scale.setScalar(narrow?.82:1);
+    if(!inColl)pYaw*=.9;
+    turn.rotation.y=-eased*STEP+rise*2.2;
+    for(const b of CB){
+      const a=wrapA(b.i*STEP+turn.rotation.y),front=clamp(1-Math.abs(a)/STEP);
+      const sc=.5+.38*front*front;b.root.scale.setScalar(sc);
+      b.root.position.y=front*.18;
+      const act=b.i===activeI&&cIn>.5;
+      b.grp.rotation.y=lerp(b.grp.rotation.y,(act?(reduce?0:Math.sin(t*.55)*.35)+pYaw:0),1-Math.exp(-dt*4));
+      capPose(b,0,dt);
+      b.lm.uniforms.uGlow.value=.04;
+    }
+    if(!inColl)pYaw=0;
+  }
 
   /* orbs + labels */
   stage.updateMatrixWorld();v4.copy(stage.position).project(camera);const midX=(v4.x*.5+.5)*W;
@@ -1073,21 +1175,23 @@ function frame(now){
   });
   orbitRings.forEach((r,i)=>{r.material.opacity=tierP[i]*.6;r.scale.setScalar(1+.25*(1-tierP[i]))});
 
-  /* landing ring, shadow, mist */
+  /* landing ring, shadow, stone tone, mist */
   if(ringT>=0){ringT+=dt*.75;const k=easeOutExpo(clamp(ringT));ring.scale.setScalar(.95+k*.95);ring.material.opacity=(1-clamp(ringT))*.6;if(ringT>=1){ringT=-1;ring.material.opacity=0}}
-  shadow.material.opacity=(1-clamp(drop/4))*(1-darkK*.4);M.stone.color.setScalar(1-darkK*.5);shadow.scale.setScalar(1+clamp(drop/6)*.6);
+  shadow.material.opacity=(1-clamp(drop/4))*(1-darkK*.4);shadow.scale.setScalar(1+clamp(drop/6)*.6);
+  M.stone.color.setScalar(1-darkK*.5);
   tickMist(dt);
 
-  /* backdrop arch + glow follow the bottle on screen */
-  v3.set(0,1,0);S.grp.localToWorld(v3);v3.project(camera);BDU.uGP.value.set(v3.x*.5+.5,v3.y*.5+.5);BDU.uAsp.value=W/H;
-  v4.set(0,0,0);S.grp.localToWorld(v4);v4.project(camera);const yb=v4.y;v4.set(0,2.6,0);S.grp.localToWorld(v4);v4.project(camera);
-  BDU.uArchW.value=Math.abs(v4.y-yb)*.5*.62;
+  /* backdrop arch + glow follow the featured bottle on screen */
+  const fb=inColl||cIn>.5?CB[activeI]:shown;
+  v3.set(0,fb.height*.45,0);fb.grp.localToWorld(v3);v3.project(camera);BDU.uGP.value.set(v3.x*.5+.5,v3.y*.5+.5);BDU.uAsp.value=W/H;
+  v4.set(0,0,0);fb.grp.localToWorld(v4);v4.project(camera);const yb=v4.y;v4.set(0,fb.height,0);fb.grp.localToWorld(v4);v4.project(camera);
+  BDU.uArchW.value=Math.abs(v4.y-yb)*.5*.55;
 
-  setCursor(hovering?(drag&&moved>6?'drag':'spritz'):(cursorMode==='link'?'link':''));
+  setCursor(hover?(drag&&moved>6?'drag':(inColl&&hover.i!==activeI?'view':'spritz')):(cursorMode==='link'?'link':''));
 
   if(!covered||firstFrame){renderer.render(scene,camera);canvas.style.visibility='visible'}else canvas.style.visibility='hidden';
   if(firstFrame){firstFrame=false;introBar.style.transform='scaleX(.8)';
-    labelFonts.then(()=>{for(const [k,Sh] of Object.entries(SHAPES))if(Sh.frag)labelFor(k,Sh.frag,true);layoutBackdrop();setTimeout(finishIntro,reduce?0:450)})}
+    labelFonts.then(()=>{[heroB,notesB,...CB].forEach(drawB);layoutBackdrop();setTimeout(finishIntro,reduce?0:450)})}
 }
 introBar.style.transform='scaleX(.45)';
 requestAnimationFrame(frame);
