@@ -8,12 +8,12 @@ Single-page concept homepage (`index.html` + `assets/`) by BEYOUROWN, built to t
 
 ## Run it locally
 
-Everything (three.js, Lenis, logo, photography) ships in `assets/`, so it runs offline; only the Google Fonts need internet (it falls back to system fonts without).
+Just **double-click `index.html`**. three.js, Lenis and the logos are bundled into `assets/app.js`, so it works straight from disk and offline (only Google Fonts need internet; without it the type falls back to system fonts).
 
-- **Mac:** double-click `start-mac.command` (first time: right-click → Open, to allow it).
-- **Windows:** double-click `start-windows.bat` (needs Python, or Node for the `npx serve` fallback).
-- **Linux / any terminal:** `./start.sh`, or `python3 -m http.server 8765` in this folder, then open http://localhost:8765.
+The `start-mac.command` / `start-windows.bat` / `start.sh` scripts are optional; they serve the folder on http://localhost:8765 if you prefer.
 
-It must be served over http (not opened as a file), because the bottle labels are drawn from the logo images.
+## Editing
+
+Source lives in `src/app.js`. After changes run `npm install` once, then `npm run build` to regenerate `assets/app.js`.
 
 MRP/discount figures are placeholders until live pricing is supplied.
