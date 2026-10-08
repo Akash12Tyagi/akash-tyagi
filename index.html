@@ -149,6 +149,9 @@ h2{font-size:clamp(42px,5.6vw,92px);line-height:.92}
 /* ---------- marquee ---------- */
 .marquee{position:relative;background:var(--black);color:var(--paper);overflow:hidden;padding:30px 0}
 .marquee .track{display:flex;width:max-content;animation:marq 38s linear infinite}
+.marquee .track.rev{animation-direction:reverse;animation-duration:52s;margin-top:20px}
+.marquee .track.rev span{color:transparent;-webkit-text-stroke:1px rgba(250,247,242,.55)}
+.marquee .track.rev span.st{-webkit-text-stroke:0;color:var(--red)}
 .marquee span{font:600 clamp(28px,3.4vw,52px)/1 var(--display);letter-spacing:-.02em;padding:0 .55em;white-space:nowrap}
 .marquee span.st{color:var(--red);padding:0;font-size:.6em;align-self:center}
 @keyframes marq{to{transform:translateX(-50%)}}
@@ -268,9 +271,13 @@ h2{font-size:clamp(42px,5.6vw,92px);line-height:.92}
 .shot:hover figcaption,.shot:focus-within figcaption{transform:none}
 @media (max-width:900px){.gal{grid-template-columns:1fr 1fr}.gcol:nth-child(3){display:none}.gcol:nth-child(2){margin-top:8vh}.shot figcaption{transform:none}}
 
-#box{padding:clamp(100px,12vw,170px) var(--gutter);background:#F3EEE6}
+#box{position:relative;padding:clamp(100px,12vw,170px) var(--gutter);background:transparent}
 .box-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(40px,6vw,100px);align-items:center;margin-top:clamp(50px,6vw,90px)}
 .pack{position:relative;aspect-ratio:1/1}
+.has3d .pack img{display:none}
+.has3d .slots{display:none}
+.pack .hint3d{position:absolute;left:0;bottom:-6px;font:500 10px var(--body);letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);display:none}
+.has3d .pack .hint3d{display:block}
 .pack img{position:absolute;object-fit:cover;box-shadow:0 40px 80px -40px rgba(0,0,0,.45)}
 .pack .a{left:0;top:0;width:78%;height:82%}
 .pack .b{right:0;bottom:0;width:52%;height:58%;border:8px solid #F3EEE6}
@@ -317,7 +324,7 @@ h2{font-size:clamp(42px,5.6vw,92px);line-height:.92}
 #final h2{font-size:clamp(48px,7.4vw,128px)}
 #final p{margin:0;max-width:40ch;line-height:1.7;color:rgba(250,247,242,.85)}
 
-footer{position:relative;background:var(--black);color:rgba(250,247,242,.7);padding:70px var(--gutter) calc(40px + env(safe-area-inset-bottom,0px));display:grid;grid-template-columns:1.5fr repeat(3,1fr);gap:40px;font-size:13.5px}
+footer{position:relative;background:var(--black);color:rgba(250,247,242,.7);padding:70px var(--gutter) calc(40px + env(safe-area-inset-bottom,0px));display:grid;grid-template-columns:1.3fr 1.5fr 1fr 1fr;gap:40px;font-size:13.5px}
 footer .logo-word{width:150px;color:var(--paper)}
 footer h5{margin:0 0 18px;font:600 10.5px var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--paper)}
 footer ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px}
@@ -333,6 +340,12 @@ footer a:hover{color:var(--paper)}
 .legal span{max-width:72ch}
 .legal b{color:var(--paper);font-weight:600}
 @media (max-width:900px){footer{grid-template-columns:1fr 1fr}footer>div:first-child{grid-column:1/-1}}
+
+/* photographic grain over everything, so the render and the photography sit in one world */
+#grain{position:fixed;inset:-50%;width:200%;height:200%;pointer-events:none;z-index:40;opacity:.055;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1s steps(5) infinite}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-2%,1%)}50%{transform:translate(1%,-2%)}75%{transform:translate(-1%,-1%)}100%{transform:translate(2%,2%)}}
+.foot-shop ul{columns:2;column-gap:28px;display:block}.foot-shop li{margin-bottom:11px;break-inside:avoid}
 
 /* ---------- cursor ---------- */
 .cursor,.dot-c{position:fixed;top:0;left:0;pointer-events:none;opacity:0;transition:opacity .4s}
@@ -350,6 +363,7 @@ body.moved .cursor,body.moved .dot-c{opacity:1}
 @media (prefers-reduced-motion:reduce){
   .split .ln>span,.rise{transition:none;transform:none;opacity:1}
   .marquee .track{animation:none}
+  #grain{animation:none}
   #intro .logo-mark,#intro .logo-word{animation:none;opacity:1;transform:none}
 }
 </style>
@@ -364,6 +378,7 @@ body.moved .cursor,body.moved .dot-c{opacity:1}
 <canvas id="stage" role="img" aria-label="A 3D Lusso di Firenze bottle on a travertine plinth. Drag to turn it, click to spritz. Scrolling opens its notes and changes the fragrance."></canvas>
 <img class="fallback-shot" src="assets/img/cut-amber.jpg" alt="">
 <div id="labels" aria-hidden="true"></div>
+<div id="grain" aria-hidden="true"></div>
 
 <div id="intro" aria-hidden="true">
   <div class="half t"></div><div class="half b"></div>
@@ -408,7 +423,7 @@ body.moved .cursor,body.moved .dot-c{opacity:1}
     <p class="hint">Drag to turn · Click to spritz</p>
   </section>
 
-  <div class="marquee" data-theme="dark" aria-hidden="true"><div class="track" id="marq"></div></div>
+  <div class="marquee" data-theme="dark" aria-hidden="true"><div class="track" id="marq"></div><div class="track rev" id="marq2"></div></div>
 
   <!-- NOTES -->
   <section id="notes" data-theme="dark" aria-labelledby="notesH">
@@ -489,26 +504,29 @@ body.moved .cursor,body.moved .dot-c{opacity:1}
       <div class="gcol" data-speed=".04">
         <figure class="shot rise"><img src="assets/img/flora-smile.jpg" alt="Woman laughing with Flora Bella" loading="lazy"><figcaption>Flora Bella <a href="#collection" data-go="1">Shop →</a></figcaption></figure>
         <figure class="shot rise"><img src="assets/img/aura-denim.jpg" alt="Aura Elegance in a denim pocket" loading="lazy"><figcaption>Aura Elegance <a href="#collection" data-go="2">Shop →</a></figcaption></figure>
+        <figure class="shot rise"><img src="assets/img/golden-temptation.jpg" alt="Golden Temptation in its carved crystal bottle with nutmeg and oud" loading="lazy"><figcaption>Golden Temptation <a href="#collection" data-go="7">Shop →</a></figcaption></figure>
       </div>
       <div class="gcol" data-speed="-.05">
         <figure class="shot rise d1"><img src="assets/img/miss-veil.jpg" alt="Woman under a white veil holding Miss Desire" loading="lazy"><figcaption>Miss Desire <a href="#collection" data-go="4">Shop →</a></figcaption></figure>
-        <figure class="shot rise d1"><img src="assets/img/silver-tray.jpg" alt="Silver Elite served on a silver tray" loading="lazy"><figcaption>Silver Elite <a href="#collection" data-go="6">Shop →</a></figcaption></figure>
+        <figure class="shot rise d1"><img src="assets/img/silver-stone.jpg" alt="Silver Elite on wet stone with ferns" loading="lazy"><figcaption>Silver Elite <a href="#collection" data-go="6">Shop →</a></figcaption></figure>
+        <figure class="shot rise d1"><img src="assets/img/pack-rouge.jpg" alt="Rouge Signature bottles with their boxes" loading="lazy"><figcaption>Rouge Signature <a href="#collection" data-go="8">Shop →</a></figcaption></figure>
       </div>
       <div class="gcol" data-speed=".07">
         <figure class="shot rise d2"><img src="assets/img/majesty-lips.jpg" alt="Model holding Majesty Noir between her lips" loading="lazy"><figcaption>Majesty Noir <a href="#collection" data-go="0">Shop →</a></figcaption></figure>
         <figure class="shot rise d2"><img src="assets/img/vaan-books.jpg" alt="Vaan Noir on old leather books with grapes" loading="lazy"><figcaption>Vaan Noir <a href="#collection" data-go="5">Shop →</a></figcaption></figure>
+        <figure class="shot rise d2"><img src="assets/img/pack-amber.jpg" alt="Amber Nomad in its terracotta box" loading="lazy"><figcaption>Amber Nomad <a href="#collection" data-go="3">Shop →</a></figcaption></figure>
       </div>
     </div>
   </section>
 
   <!-- BOX -->
-  <section id="box" class="solid" aria-labelledby="boxH">
+  <section id="box" aria-labelledby="boxH">
     <div class="sec-head">
       <h2 id="boxH" class="split"><span class="ln"><span>Build your box.</span></span></h2>
-      <p class="rise">Choose three signatures for one gift box. Boxes from ₹999.</p>
+      <p class="rise">Choose three of the ten signatures and watch them settle into the terracotta box. Boxes from ₹999.</p>
     </div>
     <div class="box-grid">
-      <div class="pack rise"><img class="a" src="assets/img/pack-box.jpg" alt="Lusso di Firenze gift box" loading="lazy"><img class="b" src="assets/img/pack-amber.jpg" alt="Amber Nomad in its open box" loading="lazy"></div>
+      <div class="pack" id="pack3d"><img class="a" src="assets/img/pack-box.jpg" alt="Lusso di Firenze gift box" loading="lazy"><img class="b" src="assets/img/pack-amber.jpg" alt="Amber Nomad in its open box" loading="lazy"><span class="hint3d">Your box, live · drag to turn</span></div>
       <div class="picker rise d1">
         <div class="slots" id="slots"></div>
         <h4>Choose three</h4>
@@ -534,8 +552,8 @@ body.moved .cursor,body.moved .dot-c{opacity:1}
       <span class="logo-word" role="img" aria-label="Lusso di Firenze"></span>
       <div class="news"><p>We'd love to hear from you.</p><form id="newsF"><label class="sr" for="em">Email</label><input id="em" type="email" placeholder="Your email" required><button type="submit">Send message</button></form></div>
     </div>
-    <div><h5>Shop</h5><ul><li><a href="#collection">For her</a></li><li><a href="#collection">For unisex</a></li><li><a href="#box">Gift boxes</a></li></ul></div>
-    <div><h5>Company</h5><ul><li><a href="#pillars">Our story</a></li><li><a href="#pillars">Craftsmanship</a></li><li><a href="#gallery">Journal</a></li></ul></div>
+    <div class="foot-shop"><h5>The collection</h5><ul id="footShop"></ul></div>
+    <div><h5>Company</h5><ul><li><a href="#pillars">Our story</a></li><li><a href="#pillars">Craftsmanship</a></li><li><a href="#gallery">Journal</a></li><li><a href="#box">Gift boxes</a></li></ul></div>
     <div><h5>Help</h5><ul><li><a href="#footer">Shipping</a></li><li><a href="#footer">Returns</a></li><li><a href="#footer">Contact</a></li></ul></div>
     <div class="legal"><span>Concept homepage by <b>BEYOUROWN</b> · beyourown.in · not the live store</span><span>3D bottles are stand-in renders. Photography and logo from the Lusso di Firenze brand guidelines. MRP and discount figures are placeholders; the Majesty Noir top/heart/base grouping is indicative. Royal Velvet is shown in the round bottle until its photography is supplied.</span></div>
   </footer>
@@ -590,6 +608,8 @@ $('#picks').innerHTML=FRAGS.map((f,i)=>`<button class="pick" type="button" data-
 $('#slots').innerHTML=[1,2,3].map(n=>`<div class="slot"><span class="ph">0${n}</span></div>`).join('');
 const mq=['Designed in Italy','35% parfum oil','12–16 hours on skin','Unisex luxury','Entry at ₹999'].map(t=>`<span>${t}</span><span class="st">✦</span>`).join('');
 $('#marq').innerHTML=mq+mq;
+const mq2=FRAGS.map(f=>`<span>${f.name}</span><span class="st">✦</span>`).join('');$('#marq2').innerHTML=mq2+mq2;
+$('#footShop').innerHTML=FRAGS.map((f,i)=>`<li><a href="#collection" data-go="${i}">${f.name}</a></li>`).join('');
 const noteEls=$$('#labels .note'),tierEls=$$('.tier'),swEls=$$('.sw'),slotEls=$$('.slot');
 const setBannerH=()=>document.documentElement.style.setProperty('--bannerH',$('#banner').offsetHeight+'px');setBannerH();addEventListener('resize',setBannerH);
 
@@ -633,16 +653,18 @@ function navTick(y,notesDark){
 /* cart + box */
 let cart=0;const cartN=$('#cartN');
 function bump(n=1){cart+=n;cartN.textContent=cart;cartN.classList.add('bump');setTimeout(()=>cartN.classList.remove('bump'),300)}
-const boxSel=[];
+const boxSel=[];let onBoxChange=()=>{};
 function renderBox(){
   slotEls.forEach((s,i)=>{const f=boxSel[i];
     if(f){if(s.dataset.f!==f.id){s.innerHTML=`<span class="ph">0${i+1}</span>${mini(f)}<span class="nm">${f.name}</span>`;s.dataset.f=f.id;s.classList.remove('full');requestAnimationFrame(()=>requestAnimationFrame(()=>s.classList.add('full')))}}
     else{s.classList.remove('full');s.dataset.f='';s.innerHTML=`<span class="ph">0${i+1}</span>`}});
   $('#boxCount').textContent=boxSel.length===3?'Ready · 3 of 3':`${boxSel.length} of 3 chosen`;
   $('#boxGo').disabled=boxSel.length<3;
+  onBoxChange(boxSel);
 }
 renderBox();
 function addToBox(i){if(boxSel.length>=3)boxSel.shift();boxSel.push(FRAGS[i]);renderBox()}
+[1,3,7].forEach(addToBox); // open on a curated trio: Flora Bella, Amber Nomad, Golden Temptation
 $('#picks').addEventListener('click',e=>{const b=e.target.closest('.pick');if(b)addToBox(+b.dataset.i)});
 $('#boxClear').addEventListener('click',()=>{boxSel.length=0;renderBox()});
 $('#boxGo').addEventListener('click',()=>{bump(1);boxSel.length=0;renderBox()});
@@ -715,7 +737,7 @@ renderer.setPixelRatio(DPR);
 renderer.toneMapping=THREE.NoToneMapping; // keeps the paper backdrop exactly #FAF7F2 inside and outside the glass
 renderer.outputColorSpace=THREE.SRGBColorSpace;
 
-const scene=new THREE.Scene();
+const scene=new THREE.Scene();scene.fog=new THREE.Fog('#FAF7F2',1000,1001);
 const camera=new THREE.PerspectiveCamera(28,innerWidth/innerHeight,.1,100);
 camera.position.set(0,1,11);scene.add(camera);
 
@@ -797,11 +819,12 @@ function tickBackdrop(dt){
    position with a Beer-Lambert tint, so the glass around it can still use real transmission. It also draws
    the dip tube, which in the real bottles is visible running down the middle of the liquid. */
 const drawSize=new THREE.Vector2();
-const liquidMat=()=>new THREE.ShaderMaterial({uniforms:{...BDU,uRes:{value:drawSize},uTint:{value:new THREE.Color()},uDensity:{value:.55},uGlow:{value:.05},uTube:{value:0}},
-  vertexShader:`varying vec3 vN,vP,vAx;
-void main(){vN=normalize(normalMatrix*normal);vec4 mv=modelViewMatrix*vec4(position,1.);vP=mv.xyz;vAx=(modelViewMatrix*vec4(0.,position.y,0.,1.)).xyz;gl_Position=projectionMatrix*mv;}`,
+const FOGU={uFogN:{value:1000},uFogF:{value:1001},uFogC:{value:new THREE.Color('#FAF7F2').convertSRGBToLinear()}};
+const liquidMat=()=>new THREE.ShaderMaterial({uniforms:{...BDU,...FOGU,uRes:{value:drawSize},uTint:{value:new THREE.Color()},uDensity:{value:.55},uGlow:{value:.05},uTube:{value:0}},
+  vertexShader:`varying vec3 vN,vP,vAx,vON;
+void main(){vON=normal;vN=normalize(normalMatrix*normal);vec4 mv=modelViewMatrix*vec4(position,1.);vP=mv.xyz;vAx=(modelViewMatrix*vec4(0.,position.y,0.,1.)).xyz;gl_Position=projectionMatrix*mv;}`,
   fragmentShader:`${BD_GLSL}
-uniform vec2 uRes;uniform vec3 uTint;uniform float uDensity,uGlow,uTube;varying vec3 vN,vP,vAx;
+uniform vec2 uRes;uniform vec3 uTint,uFogC;uniform float uDensity,uGlow,uTube,uFogN,uFogF;varying vec3 vN,vP,vAx,vON;
 void main(){
   vec3 N=normalize(vN);if(!gl_FrontFacing)N=-N;vec3 V=normalize(-vP);
   float nv=clamp(dot(N,V),0.,1.);
@@ -818,6 +841,10 @@ void main(){
   }
   vec3 L=normalize(vec3(.45,.7,.6));col+=pow(max(dot(N,normalize(L+V)),0.),90.)*.35;
   col=mix(col,col*.72,pow(1.-nv,3.)*.5);
+  col+=uTint*smoothstep(.2,.04,nv)*.3;                       // light caught just inside the glass wall
+  if(vON.y>.6){col=mix(col,bg*1.02+uTint*.1,.55);col+=.06;}  // the liquid's surface line under the shoulder
+  if(vON.y<-.6)col*=.82;
+  col=mix(col,uFogC,smoothstep(uFogN,uFogF,-vP.z));
   gl_FragColor=vec4(col,1.);
   #include <colorspace_fragment>
 }`});
@@ -828,15 +855,24 @@ const M={
   gold:new THREE.MeshPhysicalMaterial({color:'#D4AE62',metalness:1,roughness:.2,envMapIntensity:1.3}),
 };
 
-/* travertine, echoing the stone in the brand photography */
+/* travertine, echoing the stone in the brand photography: bedded noise, elongated pores, a bump map from the same pass */
 function travertine(){
-  const c=document.createElement('canvas');c.width=1024;c.height=512;const g=c.getContext('2d');
-  g.fillStyle='#D8C9AE';g.fillRect(0,0,1024,512);
-  let s=9;const R=()=>(s=(s*16807)%2147483647)/2147483647;
-  for(let i=0;i<18;i++){g.fillStyle=`rgba(${150+R()*40|0},${120+R()*30|0},${80+R()*20|0},${.03+R()*.05})`;g.fillRect(0,R()*512,1024,1+R()*6)}
-  for(let i=0;i<1600;i++){g.fillStyle=`rgba(105,80,52,${.1+R()*.28})`;g.beginPath();g.ellipse(R()*1024,R()*512,1+R()*7,.6+R()*2.2,0,0,Math.PI*2);g.fill()}
+  const W=1024,H=512,c=document.createElement('canvas');c.width=W;c.height=H;const g=c.getContext('2d');
+  let sd=11;const R=()=>(sd=(sd*16807)%2147483647)/2147483647;
+  const G=97,grid=Array.from({length:G*G},R);
+  const vn=(x,y)=>{const xi=Math.floor(x),yi=Math.floor(y),xf=x-xi,yf=y-yi,u=xf*xf*(3-2*xf),v=yf*yf*(3-2*yf);
+    const at=(a,b)=>grid[((b%G+G)%G)*G+((a%G+G)%G)];const a=at(xi,yi),b=at(xi+1,yi),c2=at(xi,yi+1),d=at(xi+1,yi+1);return a+(b-a)*u+(c2-a)*v+(a-b-c2+d)*u*v};
+  const img=g.createImageData(W,H),D=img.data;
+  for(let y=0;y<H;y++){const band=vn(3.3,y/H*11);for(let x=0;x<W;x++){
+    const n=vn(x/W*5,y/H*18)*.5+vn(x/W*18,y/H*55)*.3+vn(x/W*70,y/H*170)*.2;
+    const k=.84+.17*n-.06*band,i=(y*W+x)*4;D[i]=228*k;D[i+1]=213*k;D[i+2]=188*k;D[i+3]=255}}
+  g.putImageData(img,0,0);
+  for(let i=0;i<900;i++){const x=R()*W,y=R()*H,rx=1.5+Math.pow(R(),2)*16,ry=.5+R()*2;
+    g.fillStyle=`rgba(118,92,62,${.18+R()*.32})`;g.beginPath();g.ellipse(x,y,rx,ry,(R()-.5)*.08,0,Math.PI*2);g.fill();
+    g.fillStyle='rgba(255,248,235,.22)';g.beginPath();g.ellipse(x,y-ry*.9,rx*.9,.6,0,0,Math.PI*2);g.fill()}
   const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.wrapS=THREE.RepeatWrapping;t.anisotropy=8;return t}
-M.stone=new THREE.MeshStandardMaterial({map:travertine(),roughness:.9,metalness:0,envMapIntensity:.55});
+const stoneTex=travertine();
+M.stone=new THREE.MeshStandardMaterial({map:stoneTex,bumpMap:stoneTex,bumpScale:1.4,roughness:.84,metalness:0,envMapIntensity:.55});
 
 /* ---------- printed labels ---------- */
 const loadImg=src=>new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src});
@@ -961,6 +997,23 @@ function makeBottle(f){
 function drawB(b){(b.label==='diamond'?drawDiamond:drawLabel)(b.lc,b.f,b.aspect);b.lt.needsUpdate=true}
 const shTex=(()=>{const c=document.createElement('canvas');c.width=c.height=256;const g=c.getContext('2d');const r=g.createRadialGradient(128,128,0,128,128,128);r.addColorStop(0,'rgba(40,25,10,.55)');r.addColorStop(.45,'rgba(40,25,10,.22)');r.addColorStop(1,'rgba(40,25,10,0)');g.fillStyle=r;g.fillRect(0,0,256,256);return new THREE.CanvasTexture(c)})();
 const shadowMesh=(w,d)=>{const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),new THREE.MeshBasicMaterial({map:shTex,transparent:true,depthWrite:false}));m.rotation.x=-Math.PI/2;m.position.y=.004;return m};
+const castTex=(()=>{const c=document.createElement('canvas');c.width=256;c.height=512;const g=c.getContext('2d');g.filter='blur(16px)';
+  const gr=g.createLinearGradient(0,500,0,30);gr.addColorStop(0,'rgba(48,32,16,.5)');gr.addColorStop(.55,'rgba(48,32,16,.2)');gr.addColorStop(1,'rgba(48,32,16,0)');
+  g.fillStyle=gr;g.beginPath();g.ellipse(128,300,74,220,0,0,Math.PI*2);g.fill();return new THREE.CanvasTexture(c)})();
+const glowTex=(()=>{const c=document.createElement('canvas');c.width=c.height=256;const g=c.getContext('2d');const r=g.createRadialGradient(128,128,0,128,128,128);
+  r.addColorStop(0,'rgba(255,255,255,1)');r.addColorStop(.35,'rgba(255,255,255,.45)');r.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=r;g.fillRect(0,0,256,256);return new THREE.CanvasTexture(c)})();
+const LIGHT_YAW=Math.asin(.62); // key light sits front-right, so shadows fall back-left
+function makeGround(b){
+  const grp=new THREE.Group(),w=b.height*.5;
+  const ao=shadowMesh(w*1.25,w*.95);ao.material.opacity=.9;grp.add(ao);
+  const arm=new THREE.Group();arm.rotation.y=LIGHT_YAW;grp.add(arm);
+  const cg=new THREE.PlaneGeometry(1,1);cg.translate(0,.5,0);
+  const cast=new THREE.Mesh(cg,new THREE.MeshBasicMaterial({map:castTex,transparent:true,depthWrite:false,opacity:.85}));
+  cast.rotation.x=-Math.PI/2;cast.position.y=.003;cast.scale.set(w*1.05,b.height*.95,1);arm.add(cast);
+  const caustic=new THREE.Mesh(new THREE.PlaneGeometry(1,1),new THREE.MeshBasicMaterial({map:glowTex,color:new THREE.Color(b.f.liquid),transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,opacity:.32}));
+  caustic.rotation.x=-Math.PI/2;caustic.position.set(0,.006,-w*.95);caustic.scale.set(w*.75,w*1.25,1);arm.add(caustic);
+  grp.userData={ao,cast,caustic};return grp;
+}
 
 /* ---------- hero / notes stage: one bottle on a plinth ---------- */
 const stage=new THREE.Group();scene.add(stage);
@@ -970,7 +1023,7 @@ spin.add(heroB.root,notesB.root);notesB.root.visible=false;
 let shown=heroB,target=heroB,morph=0;
 const PR=1.85,PH=.5;
 const plinth=new THREE.Mesh(new THREE.CylinderGeometry(PR,PR*1.01,PH,128,1),M.stone);plinth.position.y=-PH/2;stage.add(plinth);
-const shadow=shadowMesh(2.9,2.1);stage.add(shadow);
+const groundH=makeGround(heroB),groundN=makeGround(notesB);stage.add(groundH,groundN);groundN.visible=false;
 const ring=new THREE.Mesh(new THREE.RingGeometry(.985,1,128),new THREE.MeshBasicMaterial({color:'#BD0000',transparent:true,opacity:0,depthWrite:false,side:THREE.DoubleSide}));ring.rotation.x=-Math.PI/2;ring.position.y=.008;stage.add(ring);
 
 /* note orbs and red orbit rings for the dark set */
@@ -988,7 +1041,44 @@ const CR=2.8,STEP=Math.PI*2/N;
 const disk=new THREE.Mesh(new THREE.CylinderGeometry(CR+1.05,CR+1.1,.42,180,1),M.stone);disk.position.y=-.21;carousel.add(disk);
 const turn=new THREE.Group();carousel.add(turn);
 const CB=FRAGS.map((f,i)=>{const b=makeBottle(f),a=i*STEP;b.root.position.set(Math.sin(a)*CR,0,Math.cos(a)*CR);b.root.rotation.y=a;
-  const sh=shadowMesh(2.4,1.8);b.root.add(sh);b.sh=sh;turn.add(b.root);b.i=i;return b});
+  b.ground=makeGround(b);carousel.add(b.ground);turn.add(b.root);b.i=i;return b});
+
+/* ---------- gift box: the brand's terracotta coffret; the lid opens on scroll and the chosen bottles drop in ---------- */
+function leatherTex(){
+  const c=document.createElement('canvas');c.width=c.height=512;const g=c.getContext('2d');
+  g.fillStyle='#7A3220';g.fillRect(0,0,512,512);
+  let sd=21;const R=()=>(sd=(sd*16807)%2147483647)/2147483647;
+  for(let i=0;i<9000;i++){const v=R();g.fillStyle=v>.5?`rgba(255,190,150,${.03+R()*.05})`:`rgba(40,10,0,${.04+R()*.07})`;g.fillRect(R()*512,R()*512,1+R()*2,1+R()*2)}
+  const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(3,3);return t}
+const lthr=leatherTex();
+const LEATHER=new THREE.MeshPhysicalMaterial({map:lthr,bumpMap:lthr,bumpScale:.5,roughness:.55,sheen:.8,sheenRoughness:.4,sheenColor:new THREE.Color('#e59a7a'),clearcoat:.3,clearcoatRoughness:.5,envMapIntensity:.8});
+const SUEDE=new THREE.MeshStandardMaterial({color:'#EFE5D2',roughness:.96,envMapIntensity:.45});
+const FOIL=(()=>{const IMG=tintImg(IMG_WORD,'#ffffff');const t=new THREE.CanvasTexture(IMG);
+  return new THREE.MeshPhysicalMaterial({color:'#D9B56A',metalness:1,roughness:.24,alphaMap:t,transparent:true,depthWrite:false,envMapIntensity:1.5,polygonOffset:true,polygonOffsetFactor:-3})})();
+const gift=new THREE.Group();gift.visible=false;scene.add(gift);
+const GW=4.5,GD=2.55,GH=.95,GT=.09;
+const slab=(w,h,d,mat,x,y,z,par=gift)=>{const m=new THREE.Mesh(new RoundedBoxGeometry(w,h,d,3,.03),mat);m.position.set(x,y,z);par.add(m);return m};
+slab(GW,GT,GD,LEATHER,0,GT/2,0);
+slab(GW,GH,GT,LEATHER,0,GH/2,GD/2-GT/2);slab(GW,GH,GT,LEATHER,0,GH/2,-GD/2+GT/2);
+slab(GT,GH,GD,LEATHER,GW/2-GT/2,GH/2,0);slab(GT,GH,GD,LEATHER,-GW/2+GT/2,GH/2,0);
+const INS=.5;slab(GW-GT*2,INS,GD-GT*2,SUEDE,0,GT+INS/2,0);
+for(const x of [-.75,.75])slab(.07,.3,GD-GT*2,SUEDE,x,GT+INS+.15,0);
+const lid=new THREE.Group();lid.position.set(0,GH,-GD/2);gift.add(lid);
+slab(GW+.1,.11,GD+.1,LEATHER,0,.055,GD/2,lid);
+const lidIn=new THREE.Mesh(new THREE.PlaneGeometry(GW-.25,GD-.25),SUEDE);lidIn.rotation.x=Math.PI/2;lidIn.position.set(0,-.002,GD/2);lid.add(lidIn);
+const foil=new THREE.Mesh(new THREE.PlaneGeometry(1.7,1.7*613/1755),FOIL);foil.rotation.x=Math.PI/2;foil.position.set(0,-.006,GD/2);lid.add(foil);
+const foilTop=new THREE.Mesh(new THREE.PlaneGeometry(1.9,1.9*613/1755),FOIL);foilTop.rotation.x=-Math.PI/2;foilTop.position.set(0,.112,GD/2);lid.add(foilTop);
+const giftShadow=shadowMesh(7.5,4.6);giftShadow.position.y=-.01;giftShadow.material.opacity=.75;gift.add(giftShadow);
+const SLOT_X=[-1.5,0,1.5],FLOOR=GT+INS;
+for(const x of SLOT_X){const w=shadowMesh(1.1,.8);w.position.set(x,FLOOR+.003,.05);gift.add(w)}
+const slots=[null,null,null];let giftYaw=0;
+onBoxChange=sel=>{for(let i=0;i<3;i++){const f=sel[i],sl=slots[i];
+  if(sl&&sl.b.f===f)continue;
+  if(sl){gift.remove(sl.b.root);slots[i]=null}
+  if(f){const b=makeBottle(f);b.root.scale.setScalar(.44);b.root.position.set(SLOT_X[i],FLOOR,.05);gift.add(b.root);slots[i]={b,t0:performance.now()}}}};
+onBoxChange(boxSel);
+const pack3d=$('#pack3d'),boxSec=$('#box');
+document.documentElement.classList.add('has3d');
 
 /* ---------- mist ---------- */
 const MN=700,mPos=new Float32Array(MN*3),mVel=new Float32Array(MN*3),mLife=new Float32Array(MN).fill(-1),mAlpha=new Float32Array(MN),mSize=new Float32Array(MN);
@@ -1031,15 +1121,15 @@ let yaw=-.35,vel=0,drag=false,lastX=0,moved=0,mx=0,my=0,hover=null,interactive=t
 const ray=new THREE.Raycaster(),ndc=new THREE.Vector2();
 function pickAt(x,y){
   ndc.set(x/innerWidth*2-1,-(y/innerHeight)*2+1);ray.setFromCamera(ndc,camera);
-  const list=inColl?CB:[shown];
+  const list=gift.visible?slots.filter(Boolean).map(s=>s.b):inColl?CB:[shown];
   let best=null,bd=1e9;
   for(const b of list){if(!b.root.visible)continue;const h=ray.intersectObjects(b.pick,true)[0];if(h&&h.distance<bd){bd=h.distance;best=b}}
   return best;
 }
 addEventListener('pointerdown',e=>{if(!interactive||e.target.closest('a,button,input,.card,.tiers,.swatches'))return;
-  if(pickAt(e.clientX,e.clientY)||e.target.closest('#hero')){drag=true;lastX=e.clientX;moved=0;vel=0}});
+  if(pickAt(e.clientX,e.clientY)||e.target.closest('#hero,#pack3d')){drag=true;lastX=e.clientX;moved=0;vel=0}});
 addEventListener('pointermove',e=>{
-  if(drag){const d=e.clientX-lastX;lastX=e.clientX;moved+=Math.abs(d);vel=d*.006;if(inColl)pYaw+=vel;else yaw+=vel}
+  if(drag){const d=e.clientX-lastX;lastX=e.clientX;moved+=Math.abs(d);vel=d*.006;if(gift.visible)giftYaw+=vel;else if(inColl)pYaw+=vel;else yaw+=vel}
   hover=fine&&interactive&&!e.target.closest('a,button,input')?pickAt(e.clientX,e.clientY):null;
 });
 addEventListener('pointerup',e=>{
@@ -1052,7 +1142,7 @@ addEventListener('pointercancel',()=>drag=false);
 const notesSec=$('#notes'),pillSec=$('#pillars'),cProg=$('#cProg'),oilN=$('#oilN');
 const easeOutBack=t=>{const c1=1.3,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2)};
 const easeOutExpo=t=>t>=1?1:1-Math.pow(2,-10*t);
-const wrapA=a=>Math.atan2(Math.sin(a),Math.cos(a));
+const wrapA=a=>Math.atan2(Math.sin(a),Math.cos(a));const _up=new THREE.Vector3(0,1,0);
 let last=performance.now(),landed=false,ringT=-1,firstFrame=true,lastTier=-2,lastOil=-1,lastSec='';
 const v3=new THREE.Vector3(),v4=new THREE.Vector3();
 
@@ -1077,9 +1167,11 @@ function frame(now){
   const nIn=smooth(0,1,clamp(1-nr.top/H)),nE=clamp(-nr.top/(nr.height-H));
   const cIn=smooth(0,1,clamp(1-cr.top/H)),cE=clamp(-cr.top/(cr.height-H));
   const darkK=nIn*(1-cIn);
-  const covered=pr.top<=0;
-  inColl=cIn>.6;
-  interactive=!covered&&(heroP<.7||cIn>.9);
+  const pk=pack3d.getBoundingClientRect(),bxr=boxSec.getBoundingClientRect();
+  const boxMode=bxr.top<H&&bxr.bottom>0&&pr.top<0;
+  const covered=pr.top<=0&&!boxMode;
+  inColl=cIn>.6&&!boxMode;
+  interactive=boxMode||(!covered&&(heroP<.7||cIn>.9));
   navTick(y,darkK>.5&&nr.top<=40);
   const sec=pr.top<H*.5?'#pillars':cIn>.5?'#collection':nIn>.5?'#notes':'#hero';
   if(sec!==lastSec){lastSec=sec;navLinks.forEach(a=>a.classList.toggle('on',a.getAttribute('href')===sec))}
@@ -1115,9 +1207,9 @@ function frame(now){
   const activeF=FRAGS[activeI];
 
   /* backdrop */
-  BD.target=(cIn>.5?'light':nIn>.5?'dark':'light')+'|'+(cIn>.5?activeF.name.split(' ')[0].toUpperCase():nIn>.5?'NOTES':'LUSSO');
+  BD.target=boxMode?'light|GIFT':(cIn>.5?'light':nIn>.5?'dark':'light')+'|'+(cIn>.5?activeF.name.split(' ')[0].toUpperCase():nIn>.5?'NOTES':'LUSSO');
   tickBackdrop(dt);
-  BDU.uOff.value.set(-mx*.01,my*.008);BDU.uDark.value=darkK;BDU.uArch.value=1-darkK*.999-cIn*.35;
+  BDU.uOff.value.set(-mx*.01,my*.008);BDU.uDark.value=darkK;BDU.uArch.value=boxMode?0:1-darkK*.999-cIn*.35;
   for(const b of [heroB,notesB])b.lm.uniforms.uGlow.value=.04+darkK*.35;
 
   /* layout: hero -> notes */
@@ -1141,8 +1233,9 @@ function frame(now){
   camera.position.set(Math.sin(orbitA)*camZ+mx*.3,1+my*-.25+darkK*.8+cIn*1.9,Math.cos(orbitA)*camZ);
   camera.lookAt(0,.1+darkK*.35+cIn*.2,0);
 
-  /* carousel */
-  carousel.visible=cIn>.02;
+  /* carousel (with atmospheric haze toward the back of the turntable) */
+  carousel.visible=cIn>.02&&!boxMode;
+  const hz=carousel.visible?1:0;scene.fog.near=lerp(1000,camZ+.6,hz);scene.fog.far=lerp(1001,camZ+13,hz);FOGU.uFogN.value=scene.fog.near;FOGU.uFogF.value=scene.fog.far;
   if(carousel.visible){
     const rise=1-smooth(.2,.85,cIn);
     carousel.position.set(narrow?0:-halfW*.4,(narrow?-.9:-1.75)-rise*7,narrow?-3.3:-2.6);
@@ -1157,8 +1250,24 @@ function frame(now){
       b.grp.rotation.y=lerp(b.grp.rotation.y,(act?(reduce?0:Math.sin(t*.55)*.35)+pYaw:0),1-Math.exp(-dt*4));
       capPose(b,0,dt);
       b.lm.uniforms.uGlow.value=.04;
+      b.ground.position.set(b.root.position.x,0,b.root.position.z).applyAxisAngle(_up,turn.rotation.y);b.ground.scale.setScalar(sc);
     }
     if(!inColl)pYaw=0;
+  }
+
+  /* gift box: pinned to its slot in the layout, lid opens as the section scrolls in */
+  gift.visible=boxMode;
+  if(boxMode){
+    camera.updateMatrixWorld();
+    const hit=(sx,sy,o)=>{ndc.set(sx/W*2-1,-(sy/H)*2+1);ray.setFromCamera(ndc,camera);const r=ray.ray;return o.copy(r.origin).addScaledVector(r.direction,-r.origin.z/r.direction.z)};
+    const cyp=pk.top+pk.height*.66;hit(pk.left+pk.width/2,cyp,v3);hit(pk.left,cyp,v4);const wl=v4.x;hit(pk.right,cyp,v4);
+    const gs=(v4.x-wl)/(GW*1.32),enter=clamp(1-pk.top/H);
+    gift.scale.setScalar(gs);gift.position.set(v3.x,v3.y-GH*gs*.35-(1-smooth(0,.45,enter))*2.5*gs,0);
+    if(!drag)giftYaw*=.96;
+    gift.rotation.set(.12,-.32+(reduce?0:Math.sin(t*.4)*.06)+mx*.12+giftYaw,0);
+    lid.rotation.x=-1.92*smooth(.25,.75,enter);
+    slots.forEach((sl,i)=>{if(!sl)return;const k=reduce?1:clamp((now-sl.t0)/700);sl.b.root.position.y=FLOOR+(1-easeOutBack(k))*3.2;
+      sl.b.grp.rotation.y=(reduce?0:Math.sin(t*.5+i*2)*.25);capPose(sl.b,0,dt);sl.b.lm.uniforms.uGlow.value=.04});
   }
 
   /* orbs + labels */
@@ -1177,12 +1286,14 @@ function frame(now){
 
   /* landing ring, shadow, stone tone, mist */
   if(ringT>=0){ringT+=dt*.75;const k=easeOutExpo(clamp(ringT));ring.scale.setScalar(.95+k*.95);ring.material.opacity=(1-clamp(ringT))*.6;if(ringT>=1){ringT=-1;ring.material.opacity=0}}
-  shadow.material.opacity=(1-clamp(drop/4))*(1-darkK*.4);shadow.scale.setScalar(1+clamp(drop/6)*.6);
+  {const gr=shown===heroB?groundH:groundN;groundH.visible=gr===groundH;groundN.visible=gr===groundN;
+   const gk=(1-clamp(drop/4))*ms;gr.scale.setScalar(1+clamp(drop/6)*.6);
+   gr.userData.ao.material.opacity=.9*gk*(1-darkK*.4);gr.userData.cast.material.opacity=.85*gk*(1-darkK*.7);gr.userData.caustic.material.opacity=.32*gk*(1-darkK*.6)}
   M.stone.color.setScalar(1-darkK*.5);
   tickMist(dt);
 
   /* backdrop arch + glow follow the featured bottle on screen */
-  const fb=inColl||cIn>.5?CB[activeI]:shown;
+  const fb=boxMode?(slots.find(Boolean)?.b||CB[activeI]):inColl||cIn>.5?CB[activeI]:shown;
   v3.set(0,fb.height*.45,0);fb.grp.localToWorld(v3);v3.project(camera);BDU.uGP.value.set(v3.x*.5+.5,v3.y*.5+.5);BDU.uAsp.value=W/H;
   v4.set(0,0,0);fb.grp.localToWorld(v4);v4.project(camera);const yb=v4.y;v4.set(0,fb.height,0);fb.grp.localToWorld(v4);v4.project(camera);
   BDU.uArchW.value=Math.abs(v4.y-yb)*.5*.55;
