@@ -1,0 +1,984 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lusso di Firenze</title>
+<meta name="description" content="Concept homepage for Lusso di Firenze: Italian-designed extraits de parfum, 35% parfum oil, 14+ hours on skin.">
+<meta name="theme-color" content="#0B0A08">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Hanken+Grotesk:wght@300..700&display=swap">
+<style>
+/* Layers, back to front: WebGL stage (bottle, plinth, refracted backdrop type) -> note labels -> page content.
+   Sections: intro curtain, hero, anatomy (sticky, notes orbit the bottle), collection (sticky, bottle re-colours per scent),
+   build-your-box (ivory, covers the stage), craft, footer. */
+:root{
+  --noir:#0B0A08; --noir-2:#14120F; --ivory:#F3ECE0; --ivory-2:#E9DFCE;
+  --gold:#C9A45C; --gold-hi:#F1D9A0; --gold-lo:#8A6B33;
+  --muted:#8E8678; --line:rgba(243,236,224,.14); --line-dark:rgba(11,10,8,.14);
+  --accent:#C9A45C;
+  --serif:'Bodoni Moda','Didot','Bodoni 72',Georgia,serif;
+  --sans:'Hanken Grotesk',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --gutter:clamp(16px,4vw,64px);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{background:var(--noir);color:var(--ivory);font-family:var(--sans);font-weight:400;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.locked{overflow:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0}
+:focus-visible{outline:1px solid var(--gold-hi);outline-offset:5px}
+::selection{background:var(--gold);color:var(--noir)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- stage ---------- */
+#stage{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
+#labels{position:fixed;inset:0;pointer-events:none;z-index:1}
+#grain{position:fixed;inset:-50%;width:200%;height:200%;pointer-events:none;z-index:2;opacity:.06;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1.2s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,-1%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}}
+.fallback-bottle{position:fixed;right:16vw;top:50%;transform:translateY(-40%);width:200px;height:300px;z-index:0;display:none}
+.no-webgl .fallback-bottle{display:block}
+.fallback-bottle::before{content:"";position:absolute;left:70px;top:0;width:60px;height:80px;background:linear-gradient(90deg,#3a2c14,#d9b673 45%,#fff2c9 52%,#b08a45 60%,#3a2c14)}
+.fallback-bottle::after{content:"";position:absolute;inset:90px 0 0;border-radius:10px;background:linear-gradient(100deg,rgba(255,255,255,.06),rgba(255,255,255,.22) 30%,rgba(60,35,18,.85) 32%,#1c120b 70%,rgba(255,255,255,.12));box-shadow:0 0 0 1px rgba(255,255,255,.18) inset}
+
+.content{position:relative;z-index:3}
+
+/* ---------- intro curtain ---------- */
+#intro{position:fixed;inset:0;z-index:50;display:grid;place-items:center;pointer-events:none}
+#intro .half{position:absolute;left:0;right:0;height:50.5%;background:var(--noir);transition:transform 1.4s cubic-bezier(.8,0,.15,1)}
+#intro .half.t{top:0}#intro .half.b{bottom:0}
+#intro.open .half.t{transform:translateY(-101%)}#intro.open .half.b{transform:translateY(101%)}
+#intro .mark{position:relative;text-align:center;transition:opacity .6s,transform 1.2s var(--ease)}
+#intro.open .mark{opacity:0;transform:scale(.96)}
+#intro .word{font:400 clamp(22px,3.2vw,40px)/1 var(--serif);letter-spacing:.42em;margin-right:-.42em;display:flex;justify-content:center;gap:0}
+#intro .word span{display:inline-block;opacity:0;transform:translateY(40%);animation:introIn 1s var(--ease) forwards}
+#intro .sub{margin-top:18px;font:400 11px var(--sans);letter-spacing:.5em;margin-right:-.5em;color:var(--muted);text-transform:uppercase;opacity:0;animation:fade 1s .9s forwards}
+#intro .bar{width:min(260px,50vw);height:1px;background:var(--line);margin:30px auto 0;position:relative;overflow:hidden}
+#intro .bar i{position:absolute;inset:0;background:linear-gradient(90deg,var(--gold-lo),var(--gold-hi),var(--gold-lo));transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+@keyframes introIn{to{opacity:1;transform:none}}
+@keyframes fade{to{opacity:1}}
+
+/* ---------- chrome ---------- */
+.banner{position:relative;z-index:6;background:var(--gold);color:var(--noir);font:600 10.5px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;text-align:center;padding:9px 16px;padding-top:calc(9px + env(safe-area-inset-top,0px))}
+.nav{position:fixed;top:var(--bannerH,30px);left:0;right:0;z-index:20;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;padding:18px var(--gutter);transition:transform .6s var(--ease),background .5s,top .5s var(--ease)}
+.nav.down{top:0;background:linear-gradient(rgba(11,10,8,.72),rgba(11,10,8,0));}
+.nav.hide{transform:translateY(-110%)}
+.nav ul{display:flex;gap:30px;list-style:none;margin:0;padding:0;font-size:11px;font-weight:500;letter-spacing:.24em;text-transform:uppercase}
+.nav ul a{opacity:.72;transition:opacity .3s;position:relative}
+.nav ul a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease)}
+.nav ul a:hover{opacity:1}.nav ul a:hover::after{transform:scaleX(1);transform-origin:left}
+.logo{display:flex;flex-direction:column;align-items:center;gap:4px;line-height:1}
+.logo b{font:500 19px var(--serif);letter-spacing:.34em;margin-right:-.34em;white-space:nowrap}
+.logo small{font:400 8.5px var(--sans);letter-spacing:.6em;margin-right:-.6em;color:var(--gold);text-transform:uppercase}
+.nav .right{display:flex;justify-content:flex-end;gap:22px;align-items:center;font-size:11px;letter-spacing:.24em;text-transform:uppercase}
+.bag{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:999px;padding:10px 16px;backdrop-filter:blur(10px);background:rgba(11,10,8,.25);transition:border-color .3s}
+.bag:hover{border-color:var(--gold)}
+.bag em{font-style:normal;display:inline-grid;place-items:center;min-width:18px;height:18px;border-radius:9px;background:var(--gold);color:var(--noir);font-size:10px;letter-spacing:0;font-weight:700;transition:transform .4s var(--ease)}
+.bag em.bump{transform:scale(1.35)}
+@media (max-width:900px){.banner{font-size:9px;letter-spacing:.12em}.banner .long{display:none}.nav{padding-top:14px;padding-bottom:14px}.nav ul,.nav .right .txt{display:none}.nav{grid-template-columns:auto 1fr auto}.logo{align-items:flex-start}.logo b{font-size:15px;letter-spacing:.24em}.logo small{letter-spacing:.42em}}
+
+/* ---------- type ---------- */
+.eyebrow{font:500 11px var(--sans);letter-spacing:.32em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:14px;margin:0}
+.eyebrow::before{content:"";width:34px;height:1px;background:currentColor;opacity:.7}
+h1,h2,h3{font-family:var(--serif);font-weight:400;margin:0}
+h1{font-size:clamp(50px,8vw,132px);line-height:.9;letter-spacing:-.025em}
+h1 em,h2 em,h3 em{font-style:italic;color:var(--gold-hi)}
+h2{font-size:clamp(40px,5.6vw,88px);line-height:.95;letter-spacing:-.02em}
+.split .ln{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+.split .ln>span{display:block;transform:translateY(110%);transition:transform 1.3s var(--ease)}
+.split.in .ln>span{transform:none}
+.split.in .ln:nth-child(2)>span{transition-delay:.09s}.split.in .ln:nth-child(3)>span{transition-delay:.18s}.split.in .ln:nth-child(4)>span{transition-delay:.27s}
+.rise{opacity:0;transform:translateY(24px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
+.rise.in{opacity:1;transform:none}
+.d1{transition-delay:.25s!important}.d2{transition-delay:.4s!important}.d3{transition-delay:.55s!important}.d4{transition-delay:.7s!important}
+
+.btn{position:relative;display:inline-flex;align-items:center;gap:14px;border-radius:999px;padding:18px 30px;font:600 12px var(--sans);letter-spacing:.2em;text-transform:uppercase;overflow:hidden;isolation:isolate;transition:color .5s var(--ease),border-color .5s;will-change:transform}
+.btn.solid{background:var(--ivory);color:var(--noir)}
+.btn.solid::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,var(--gold-lo),var(--gold-hi) 50%,var(--gold));transform:translateY(101%);transition:transform .6s var(--ease);z-index:-1}
+.btn.solid:hover::before{transform:none}
+.btn.line{border:1px solid var(--line);color:var(--ivory)}
+.btn.line:hover{border-color:var(--gold);color:var(--gold-hi)}
+.btn small{font-weight:400;letter-spacing:.1em;opacity:.7}
+.btn .arr{display:inline-block;transition:transform .5s var(--ease)}
+.btn:hover .arr{transform:translateX(5px)}
+
+/* ---------- hero ---------- */
+#hero{position:relative;min-height:100vh;min-height:100svh;padding:150px var(--gutter) 44px;display:grid;grid-template-rows:1fr auto;touch-action:pan-y}
+.hero-copy{align-self:center;max-width:640px;display:flex;flex-direction:column;gap:30px}
+.lede{font-size:17px;line-height:1.7;color:#CFC6B6;max-width:38ch;margin:0;font-weight:300}
+.lede b{font-weight:500;color:var(--ivory)}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.hero-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.stats{display:flex;gap:44px}
+.stat b{display:block;font:400 34px/1 var(--serif);letter-spacing:-.01em}
+.stat b sup{font-size:.5em;color:var(--gold)}
+.stat small{display:block;margin-top:8px;font:500 10px var(--sans);letter-spacing:.26em;text-transform:uppercase;color:var(--muted)}
+.scrollcue{display:flex;align-items:center;gap:14px;font:500 10px var(--sans);letter-spacing:.32em;text-transform:uppercase;color:var(--muted)}
+.scrollcue i{width:1px;height:46px;background:var(--line);position:relative;overflow:hidden}
+.scrollcue i::after{content:"";position:absolute;left:0;top:-50%;width:1px;height:50%;background:var(--gold-hi);animation:cue 2.2s var(--ease) infinite}
+@keyframes cue{to{top:110%}}
+.hint{position:absolute;right:var(--gutter);top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font:500 10px var(--sans);letter-spacing:.4em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:900px){
+  #hero{padding-top:118px;grid-template-rows:auto auto 1fr auto;row-gap:16px}
+  .hero-copy{align-self:start;gap:18px;display:contents}
+  .hero-copy>.eyebrow{display:none}
+  .hero-copy>h1{grid-row:1}
+  .hero-copy>.lede{grid-row:2}
+  .hero-copy>.ctas{grid-row:4;justify-content:center}
+  .hero-copy>.ctas .btn{flex:1 1 auto;justify-content:center}
+  .stats{display:none}
+  h1{font-size:clamp(46px,13vw,64px)}
+  .lede{font-size:15px}
+  .stats{gap:22px}.stat b{font-size:24px}
+  .hint{display:none}.scrollcue{display:none}
+  .hero-foot{display:none}
+}
+
+/* ---------- anatomy ---------- */
+#anatomy{position:relative;height:460vh}
+.sticky{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.anat{padding:120px var(--gutter) 48px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto 1fr auto;height:100%}
+.anat-head{grid-column:1/2;display:flex;flex-direction:column;gap:20px;max-width:520px}
+.anat-head p.sub{margin:0;color:#CFC6B6;font-weight:300;line-height:1.7;max-width:36ch}
+.tiers{grid-column:1/2;grid-row:3;display:flex;flex-direction:column;gap:0;max-width:440px;border-top:1px solid var(--line)}
+.tier{display:grid;grid-template-columns:44px 1fr;gap:4px 14px;padding:16px 0;border-bottom:1px solid var(--line);opacity:.32;transition:opacity .6s}
+.tier.on{opacity:1}
+.tier .n{font:italic 400 22px/1 var(--serif);color:var(--gold)}
+.tier h3{font-size:22px;line-height:1}
+.tier h3 small{font:500 10px var(--sans);letter-spacing:.28em;text-transform:uppercase;color:var(--muted);margin-left:10px;vertical-align:middle}
+.tier p{grid-column:2;margin:4px 0 0;font-size:13px;letter-spacing:.04em;color:#CFC6B6;line-height:1.6}
+.anat-side{grid-column:2;grid-row:3;justify-self:end;align-self:end;text-align:right;font:500 10px/1.9 var(--sans);letter-spacing:.26em;text-transform:uppercase;color:var(--muted)}
+.anat-side b{display:block;font:400 64px/1 var(--serif);letter-spacing:-.02em;color:var(--ivory);text-transform:none}
+.note{position:absolute;top:0;left:0;display:flex;align-items:center;gap:10px;white-space:nowrap;font:500 11px var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--ivory);opacity:0;will-change:transform,opacity}
+.note::before{content:"";width:22px;height:1px;background:var(--gold);opacity:.8}
+.note.l{flex-direction:row-reverse}
+.note em{font:italic 400 13px var(--serif);letter-spacing:0;text-transform:none;color:var(--gold-hi)}
+@media (max-width:900px){
+  .anat{grid-template-columns:1fr;padding-top:96px}
+  .anat-head p.sub{display:none}
+  .anat-side{display:none}
+  .tiers{grid-column:1;max-width:none;background:linear-gradient(rgba(11,10,8,0),rgba(11,10,8,.85) 30%);padding-top:18px}
+  .tier{padding:10px 0}.tier h3{font-size:18px}.tier p{font-size:12px}
+  #labels .note{display:none}
+}
+
+/* ---------- collection ---------- */
+#collection{position:relative}
+.coll{padding:120px var(--gutter) 44px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);grid-template-rows:auto 1fr auto;height:100%}
+.coll-head{grid-column:1/-1;display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.coll-head .count{font:400 13px var(--sans);letter-spacing:.3em;color:var(--muted)}
+.coll-head .count b{font:italic 400 44px/1 var(--serif);color:var(--ivory);letter-spacing:0;margin-right:6px}
+.card{grid-column:2;grid-row:2;align-self:center;display:flex;flex-direction:column;gap:22px;max-width:480px}
+.card .kicker{font:500 10px var(--sans);letter-spacing:.32em;text-transform:uppercase;color:var(--accent);transition:color .8s}
+.card h3{font-size:clamp(46px,5.4vw,84px);line-height:.92;letter-spacing:-.02em;min-height:1.84em;display:flex;flex-direction:column;justify-content:flex-end}
+.card h3 .w{display:block;overflow:hidden}
+.card h3 .w span{display:block;transition:transform .9s var(--ease),opacity .9s}
+.card h3.out .w span{transform:translateY(-105%);opacity:0;transition-duration:.35s}
+.card h3.pre .w span{transform:translateY(105%);opacity:0;transition:none}
+.card .desc{margin:0;color:#CFC6B6;font-weight:300;line-height:1.7;font-size:16px;max-width:34ch;min-height:3.4em;transition:opacity .5s}
+.card .meta{display:flex;gap:28px;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.card .meta div small{display:block;font:500 9.5px var(--sans);letter-spacing:.28em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.card .meta div span{font:400 20px var(--serif)}
+.card .row{display:flex;gap:12px;flex-wrap:wrap}
+.swatches{grid-column:1/-1;grid-row:3;display:flex;gap:4px;flex-wrap:wrap;justify-content:center}
+.sw{display:flex;align-items:center;gap:10px;padding:9px 14px 9px 9px;border-radius:999px;font:500 10px var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--muted);border:1px solid transparent;transition:color .4s,border-color .4s,background .4s}
+.sw i{width:14px;height:14px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
+.sw[aria-current="true"]{color:var(--ivory);border-color:var(--line);background:rgba(243,236,224,.04)}
+.sw:hover{color:var(--ivory)}
+.progress{position:absolute;left:var(--gutter);right:var(--gutter);bottom:0;height:1px;background:var(--line)}
+.progress i{position:absolute;inset:0;background:var(--accent);transform-origin:left;transform:scaleX(0)}
+@media (max-width:900px){
+  .coll{grid-template-columns:1fr;padding-top:96px;grid-template-rows:auto 1fr auto auto}
+  .card{grid-column:1;grid-row:3;gap:12px;background:linear-gradient(rgba(11,10,8,0),rgba(11,10,8,.88) 22%);padding-top:24px}
+  .card h3{font-size:42px;min-height:0}
+  .card .desc{font-size:14px;min-height:0}
+  .card .meta{padding:12px 0}
+  .card .row .btn{padding:14px 20px}
+  .swatches{grid-row:4;flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;scrollbar-width:none;margin:10px calc(var(--gutter) * -1) 0;padding:0 var(--gutter)}
+  .sw span{display:none}.sw{padding:9px}
+  .coll-head .count b{font-size:30px}
+}
+
+/* ---------- box (ivory) ---------- */
+#box{position:relative;background:var(--ivory);color:var(--noir);padding:clamp(90px,12vw,170px) var(--gutter);overflow:hidden}
+#box::before{content:"";position:absolute;inset:0;background:radial-gradient(60vmax 40vmax at 80% 0%,rgba(201,164,92,.22),transparent 60%);pointer-events:none}
+#box .eyebrow{color:var(--gold-lo)}
+#box h2 em{color:var(--gold-lo)}
+.box-grid{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,6vw,100px);align-items:center;margin-top:64px}
+.box-intro{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:40px;align-items:end;position:relative}
+.box-intro p{margin:0;font-weight:300;font-size:17px;line-height:1.7;color:#4A4339;max-width:40ch}
+.giftbox{position:relative;aspect-ratio:1.25;perspective:1400px}
+.gb{position:absolute;inset:16% 12% 12%;transform-style:preserve-3d;transform:rotateX(52deg) rotateZ(-28deg);transition:transform 1.2s var(--ease)}
+.giftbox:hover .gb{transform:rotateX(48deg) rotateZ(-24deg)}
+.gb .base{position:absolute;inset:0;background:linear-gradient(135deg,#1a1713,#0b0a08);border-radius:6px;box-shadow:0 60px 80px -30px rgba(40,28,8,.55),0 0 0 1px rgba(201,164,92,.5) inset;transform-style:preserve-3d}
+.gb .base::before{content:"";position:absolute;left:0;right:0;bottom:0;height:46px;background:linear-gradient(#26211a,#0b0a08);transform-origin:bottom;transform:rotateX(-90deg)}
+.gb .base::after{content:"";position:absolute;top:0;bottom:0;right:0;width:46px;background:linear-gradient(90deg,#171410,#050403);transform-origin:right;transform:rotateY(90deg)}
+.gb .slots{position:absolute;inset:7%;display:grid;grid-template-columns:repeat(3,1fr);gap:5%;transform-style:preserve-3d}
+.slot{position:relative;border-radius:4px;background:#050403;box-shadow:inset 0 6px 14px rgba(0,0,0,.9),0 0 0 1px rgba(201,164,92,.25);transform-style:preserve-3d;display:grid;place-items:center}
+.slot .ph{font:italic 400 14px var(--serif);color:rgba(201,164,92,.5);transform:rotateZ(28deg)}
+.slot .mini{position:absolute;inset:14% 18%;transform-origin:bottom;transform:translateZ(0) rotateX(-90deg) scale(.4);opacity:0;transition:transform .9s cubic-bezier(.3,1.5,.5,1),opacity .4s}
+.slot.full .mini{opacity:1;transform:translateZ(2px) rotateX(-52deg) rotateY(0) scale(1)}
+.slot.full .ph{opacity:0}
+.mini b{position:absolute;left:30%;right:30%;top:0;height:28%;background:var(--cap,linear-gradient(90deg,#5a4520,#f1d9a0 45%,#8a6b33));border-radius:2px}
+.mini i{position:absolute;left:0;right:0;top:32%;bottom:0;border-radius:4px;background:linear-gradient(100deg,rgba(255,255,255,.35),rgba(255,255,255,.05) 18%,var(--liq) 20%,var(--liq) 80%,rgba(255,255,255,.25));box-shadow:0 0 0 1px rgba(255,255,255,.35) inset}
+.gb .lid{position:absolute;inset:-2%;border-radius:8px;background:linear-gradient(135deg,#221d16,#0b0a08);box-shadow:0 0 0 1px rgba(201,164,92,.55) inset;transform-origin:top;transform:translateZ(60px) rotateX(-108deg);display:grid;place-items:center;backface-visibility:hidden}
+.gb .lid span{font:400 13px var(--serif);letter-spacing:.4em;color:var(--gold);text-align:center;line-height:2}
+.picker{display:flex;flex-direction:column;gap:26px}
+.picker-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.pick{position:relative;display:flex;flex-direction:column;align-items:center;gap:12px;padding:20px 8px 14px;border:1px solid var(--line-dark);border-radius:4px;background:rgba(255,255,255,.35);transition:border-color .3s,background .3s,transform .4s var(--ease)}
+.pick:hover{border-color:var(--gold-lo);background:#fff;transform:translateY(-3px)}
+.pick .mini{position:relative;width:34px;height:52px}
+.pick span{font:500 9.5px var(--sans);letter-spacing:.16em;text-transform:uppercase;text-align:center;line-height:1.4}
+.pick sup{position:absolute;top:8px;right:8px;font:600 10px var(--sans);color:var(--gold-lo)}
+.box-sum{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:22px;border-top:1px solid var(--line-dark)}
+.box-sum .lbl{font:500 10px var(--sans);letter-spacing:.28em;text-transform:uppercase;color:#6f6656}
+.box-sum .lbl b{display:block;font:400 30px var(--serif);letter-spacing:0;text-transform:none;color:var(--noir);margin-top:6px}
+#box .btn.solid{background:var(--noir);color:var(--ivory)}
+#box .btn.solid:hover{color:var(--noir)}
+#box .btn.line{border-color:var(--line-dark);color:var(--noir)}
+#box .btn[disabled]{opacity:.35;pointer-events:none}
+.clear{font:500 10px var(--sans);letter-spacing:.24em;text-transform:uppercase;color:#6f6656;text-decoration:underline;text-underline-offset:4px}
+@media (max-width:900px){.box-grid,.box-intro{grid-template-columns:1fr}.picker-grid{grid-template-columns:repeat(4,1fr);gap:6px}.pick{padding:14px 4px 10px}.pick span{font-size:8.5px;letter-spacing:.08em}}
+
+/* ---------- craft ---------- */
+#craft{position:relative;background:var(--noir);padding:clamp(100px,13vw,190px) 0 0;overflow:hidden}
+#craft::before{content:"";position:absolute;inset:0;background:radial-gradient(70vmax 50vmax at 50% 110%,rgba(201,164,92,.16),transparent 60%);pointer-events:none}
+.manifesto{padding:0 var(--gutter);max-width:1300px;margin:0 auto;text-align:center;position:relative}
+.manifesto h2{font-size:clamp(38px,5.2vw,84px)}
+.manifesto .eyebrow{justify-content:center;margin-bottom:34px}
+.manifesto .eyebrow::after{content:"";width:34px;height:1px;background:currentColor;opacity:.7}
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);margin:clamp(70px,9vw,130px) var(--gutter) 0;border-top:1px solid var(--line);position:relative}
+.pillar{padding:34px 26px 40px 0;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:14px}
+.pillar+.pillar{padding-left:26px}
+.pillar:last-child{border-right:0}
+.pillar b{font:400 clamp(48px,5vw,76px)/1 var(--serif);letter-spacing:-.02em}
+.pillar b sup{font-size:.42em;color:var(--gold);vertical-align:top;margin-left:4px;position:relative;top:.4em}
+.pillar h4{margin:0;font:500 11px var(--sans);letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}
+.pillar p{margin:0;font-weight:300;color:#B9B0A1;line-height:1.7;font-size:14px;max-width:30ch}
+@media (max-width:900px){.pillars{grid-template-columns:1fr 1fr}.pillar{padding:24px 14px 28px 0!important}.pillar:nth-child(2n){border-right:0;padding-left:14px!important}.pillar:nth-child(n+3){border-top:1px solid var(--line)}}
+.marquee{margin-top:clamp(80px,10vw,140px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:26px 0;position:relative}
+.marquee .track{display:flex;width:max-content;animation:marq 42s linear infinite}
+.marquee span{font:italic 400 clamp(40px,5vw,72px)/1 var(--serif);padding:0 .45em;white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(241,217,160,.55);transition:color .4s}
+.marquee span:hover{color:var(--gold-hi)}
+.marquee span.dot{-webkit-text-stroke:0;color:var(--gold);font-style:normal;font-size:clamp(18px,2vw,26px);align-self:center}
+@keyframes marq{to{transform:translateX(-50%)}}
+.cta-final{padding:clamp(90px,11vw,160px) var(--gutter);text-align:center;display:flex;flex-direction:column;align-items:center;gap:30px;position:relative}
+.cta-final h2{font-size:clamp(44px,7vw,120px)}
+
+footer{position:relative;background:var(--noir);border-top:1px solid var(--line);padding:56px var(--gutter) calc(40px + env(safe-area-inset-bottom,0px));display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:32px;font-size:13px;color:#B9B0A1}
+footer .logo{align-items:flex-start}
+footer h5{margin:0 0 16px;font:500 10px var(--sans);letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}
+footer ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+footer a:hover{color:var(--ivory)}
+footer .legal{grid-column:1/-1;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:28px;border-top:1px solid var(--line);font-size:11px;letter-spacing:.06em;color:var(--muted);line-height:1.7}
+footer .legal b{color:var(--gold)}
+@media (max-width:900px){footer{grid-template-columns:1fr 1fr}footer>div:first-child{grid-column:1/-1}}
+
+/* ---------- cursor ---------- */
+.cursor,.dot-c{opacity:0;transition:opacity .4s}body.moved .cursor,body.moved .dot-c{opacity:1}
+.cursor{position:fixed;top:0;left:0;z-index:60;pointer-events:none;width:44px;height:44px;margin:-22px 0 0 -22px;border:1px solid rgba(241,217,160,.55);border-radius:50%;display:grid;place-items:center;transition:width .45s var(--ease),height .45s var(--ease),margin .45s var(--ease),background .45s,border-color .45s;mix-blend-mode:normal}
+.cursor span{font:600 9px var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--noir);opacity:0;transition:opacity .3s}
+.cursor.big{width:92px;height:92px;margin:-46px 0 0 -46px;background:var(--gold-hi);border-color:var(--gold-hi)}
+.cursor.big span{opacity:1}
+.cursor.link{width:16px;height:16px;margin:-8px 0 0 -8px;background:var(--gold-hi)}
+.dot-c{position:fixed;top:0;left:0;z-index:61;width:4px;height:4px;margin:-2px 0 0 -2px;border-radius:50%;background:var(--gold-hi);pointer-events:none}
+@media (hover:none),(pointer:coarse){.cursor,.dot-c{display:none}}
+@media (hover:hover) and (pointer:fine){body.has-cursor,body.has-cursor a,body.has-cursor button{cursor:none}}
+
+@media (prefers-reduced-motion:reduce){
+  #grain{animation:none}
+  .split .ln>span,.rise{transition:none;transform:none;opacity:1}
+  .marquee .track{animation:none}
+  #intro .word span,#intro .sub{animation:none;opacity:1;transform:none}
+}
+</style>
+<script type="importmap">
+{"imports":{
+  "three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+}}
+</script>
+</head>
+<body class="locked">
+<canvas id="stage" role="img" aria-label="A 3D Lusso di Firenze perfume bottle on a black marble plinth. Drag to turn it, click to spritz. Scrolling opens its notes and changes the fragrance."></canvas>
+<div class="fallback-bottle" aria-hidden="true"></div>
+<div id="labels" aria-hidden="true"></div>
+<div id="grain" aria-hidden="true"></div>
+
+<div id="intro" aria-hidden="true">
+  <div class="half t"></div><div class="half b"></div>
+  <div class="mark">
+    <div class="word" id="introWord"></div>
+    <div class="sub">Profumi · Designed in Italy</div>
+    <div class="bar"><i id="introBar"></i></div>
+  </div>
+</div>
+
+<div class="content">
+  <div class="banner" id="banner">Concept homepage by BEYOUROWN<span class="long"> for Lusso di Firenze</span> · not the live store</div>
+  <nav class="nav" id="nav" aria-label="Main">
+    <ul>
+      <li><a href="#collection" data-cursor="link">Collection</a></li>
+      <li><a href="#anatomy" data-cursor="link">The Notes</a></li>
+      <li><a href="#box" data-cursor="link">Build a Box</a></li>
+    </ul>
+    <a class="logo" href="#hero" aria-label="Lusso di Firenze, home"><b>LUSSO DI FIRENZE</b><small>Profumi</small></a>
+    <div class="right"><a class="txt" href="#craft" data-cursor="link">Our Craft</a><a class="bag" href="#box" data-cursor="link">Bag <em id="bagN">0</em></a></div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero" aria-labelledby="h1">
+    <div class="hero-copy">
+      <p class="eyebrow rise">Extrait de parfum · Designed in Italy</p>
+      <h1 id="h1" class="split"><span class="ln"><span>Firenze,</span></span><span class="ln"><span>in a single</span></span><span class="ln"><span><em>breath.</em></span></span></h1>
+      <p class="lede rise d2"><b>35% parfum oil. 14+ hours on skin.</b> Italian design and exceptional quality, without the excessive luxury price tag.</p>
+      <div class="ctas rise d3">
+        <a class="btn solid mag" href="#collection" data-cursor="link">Discover the collection <span class="arr">→</span></a>
+        <a class="btn line mag" href="#box" data-cursor="link">Build your box <small>from ₹999</small></a>
+      </div>
+    </div>
+    <div class="hero-foot rise d4">
+      <div class="scrollcue"><i></i>Scroll to unveil</div>
+      <div class="stats">
+        <div class="stat"><b>35<sup>%</sup></b><small>Parfum oil</small></div>
+        <div class="stat"><b>14<sup>+</sup></b><small>Hours on skin</small></div>
+        <div class="stat"><b>08</b><small>Signatures</small></div>
+      </div>
+    </div>
+    <p class="hint">Drag to turn · Click to spritz</p>
+  </section>
+
+  <!-- ANATOMY -->
+  <section id="anatomy" aria-labelledby="anatH">
+    <div class="sticky">
+      <div class="anat">
+        <div class="anat-head">
+          <p class="eyebrow">Anatomia di un profumo</p>
+          <h2 id="anatH" class="split"><span class="ln"><span>Three acts.</span></span><span class="ln"><span><em>One signature.</em></span></span></h2>
+          <p class="sub rise">Majesty Noir, unbottled. Scroll to release each layer, from the first bright spark to the trail it leaves on skin.</p>
+        </div>
+        <div class="tiers" id="tiers"></div>
+        <div class="anat-side"><b id="anatCount">00</b>notes · Majesty Noir</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLLECTION -->
+  <section id="collection" aria-labelledby="collH">
+    <div class="sticky">
+      <div class="coll">
+        <div class="coll-head">
+          <div>
+            <p class="eyebrow">La collezione</p>
+            <h2 id="collH" style="font-size:clamp(34px,3.6vw,56px);margin-top:16px">Eight signatures.</h2>
+          </div>
+          <div class="count" aria-hidden="true"><b id="cIdx">01</b>/ 08</div>
+        </div>
+        <article class="card" aria-live="polite">
+          <span class="kicker" id="cKick">Signature 01</span>
+          <h3 id="cName"></h3>
+          <p class="desc" id="cDesc"></p>
+          <div class="meta">
+            <div><small>From</small><span id="cPrice"></span></div>
+            <div><small>Concentration</small><span>35% oil</span></div>
+            <div><small>Wear</small><span>14+ hrs</span></div>
+          </div>
+          <div class="row">
+            <button class="btn solid mag" type="button" id="cAdd" data-cursor="link">Add to bag <span class="arr">→</span></button>
+            <button class="btn line mag" type="button" id="cBox" data-cursor="link">Add to box</button>
+          </div>
+        </article>
+        <div class="swatches" id="swatches" role="group" aria-label="Choose a fragrance"></div>
+        <div class="progress"><i id="cProg"></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOX -->
+  <section id="box" aria-labelledby="boxH">
+    <div class="box-intro">
+      <div>
+        <p class="eyebrow">Crea la tua scatola</p>
+        <h2 id="boxH" class="split" style="margin-top:24px"><span class="ln"><span>Build your own</span></span><span class="ln"><span><em>box.</em></span></span></h2>
+      </div>
+      <p class="rise">Three signatures, one black lacquer box. Pick the scents that tell your story, or let them tell a new one. Boxes from ₹999.</p>
+    </div>
+    <div class="box-grid">
+      <div class="giftbox rise" aria-hidden="true">
+        <div class="gb">
+          <div class="base"><div class="slots" id="slots"></div></div>
+          <div class="lid"><span>LUSSO<br>DI FIRENZE</span></div>
+        </div>
+      </div>
+      <div class="picker rise d1">
+        <div class="picker-grid" id="pickGrid" role="group" aria-label="Add a fragrance to your box"></div>
+        <div class="box-sum">
+          <div class="lbl" aria-live="polite">Your box<b id="boxCount">0 of 3 chosen</b></div>
+          <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+            <button class="clear" type="button" id="boxClear" data-cursor="link">Clear</button>
+            <button class="btn solid mag" type="button" id="boxGo" disabled data-cursor="link">Add box to bag <span class="arr">→</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CRAFT -->
+  <section id="craft" aria-labelledby="craftH">
+    <div class="manifesto">
+      <p class="eyebrow">Il mestiere</p>
+      <h2 id="craftH" class="split"><span class="ln"><span>Composed like a sonnet.</span></span><span class="ln"><span><em>Worn like a second skin.</em></span></span></h2>
+    </div>
+    <div class="pillars">
+      <div class="pillar rise"><b>35<sup>%</sup></b><h4>Parfum oil</h4><p>Extrait-level concentration, so a few sprays carry from morning meeting to midnight.</p></div>
+      <div class="pillar rise d1"><b>14<sup>+</sup></b><h4>Hours on skin</h4><p>Built in layers that unfold slowly: bright on the first breath, deeper by evening.</p></div>
+      <div class="pillar rise d2"><b>IT</b><h4>Designed in Italy</h4><p>Florentine sensibility in every bottle, from the glass to the last note.</p></div>
+      <div class="pillar rise d3"><b>∞</b><h4>Ships worldwide</h4><p>From Firenze to your door, wherever that door happens to be.</p></div>
+    </div>
+    <div class="marquee" aria-hidden="true"><div class="track" id="marq"></div></div>
+    <div class="cta-final">
+      <h2 class="split"><span class="ln"><span>Find the one</span></span><span class="ln"><span><em>that finds you.</em></span></span></h2>
+      <a class="btn solid mag rise" href="#collection" data-cursor="link">Shop the collection <span class="arr">→</span></a>
+    </div>
+  </section>
+
+  <footer>
+    <div><a class="logo" href="#hero"><b>LUSSO DI FIRENZE</b><small>Profumi</small></a><p style="max-width:34ch;line-height:1.7;margin-top:22px">Luxury perfumes for men, women and everyone in between. Designed in Italy, shipped worldwide.</p></div>
+    <div><h5>Shop</h5><ul><li><a href="#collection">For him</a></li><li><a href="#collection">For her</a></li><li><a href="#collection">Unisex</a></li><li><a href="#box">Build a box</a></li></ul></div>
+    <div><h5>Maison</h5><ul><li><a href="#craft">Our craft</a></li><li><a href="#anatomy">The notes</a></li><li><a href="#craft">Journal</a></li></ul></div>
+    <div><h5>Care</h5><ul><li><a href="#hero">Shipping</a></li><li><a href="#hero">Returns</a></li><li><a href="#hero">Contact</a></li></ul></div>
+    <div class="legal"><span>Concept homepage by <b>BEYOUROWN</b> · beyourown.in · not affiliated with the live store</span><span>Bottle is a stand-in 3D render. Majesty Noir notes as listed on lussodifirenze.com; their top/heart/base grouping is indicative. Prices as listed, Oct 2026.</span></div>
+  </footer>
+</div>
+
+<div class="cursor" id="cursor"><span id="cursorTxt">Spritz</span></div>
+<div class="dot-c" id="dotc"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script type="module">
+/* ============================================================
+   DATA
+   ============================================================ */
+const FRAGS=[
+  {id:'majesty',name:'Majesty Noir',kick:'Woody · fruity · for him',desc:'Bright citrus and black currant around a pineapple core, settling into smoked birch, oakmoss and musk.',price:'₹1,385',liquid:'#4a2a12',cap:'noir',accent:'#C9A45C'},
+  {id:'flora',name:'Flora Bella',kick:'Floral · for her',desc:'Peony, rose and osmanthus with a flick of pink pepper, over a warm sandalwood finish.',price:'₹1,847',liquid:'#E59AA6',cap:'gold',accent:'#E8A9B4'},
+  {id:'aura',name:'Aura Elegance',kick:'Luminous · every occasion',desc:'A captivating, luminous signature made for every room you walk into.',price:'₹1,385',liquid:'#E7C27A',cap:'gold',accent:'#E7C27A'},
+  {id:'velvet',name:'Royal Velvet',kick:'Opulent · after dark',desc:'Plush, regal and unhurried. A fragrance that takes its time, and yours.',price:'₹1,385',liquid:'#7A1428',cap:'gold',accent:'#D45A6E'},
+  {id:'amber',name:'Amber Nomad',kick:'Warm · unisex',desc:'Sun-warmed amber for the long road, the late flight and the next horizon.',price:'₹1,385',liquid:'#C8661A',cap:'noir',accent:'#E58A3C'},
+  {id:'silver',name:'Silver Elite',kick:'Fresh · polished',desc:'Cool, precise and quietly confident. The crisp white shirt of fragrance.',price:'₹1,385',liquid:'#BFD0DC',cap:'chrome',accent:'#C9D6E0'},
+  {id:'vaan',name:'Vaan Noir',kick:'Deep · intense',desc:'The darker sibling. Dense, magnetic and made for after hours.',price:'₹1,847',liquid:'#14302C',cap:'noir',accent:'#5FA394'},
+  {id:'desire',name:'Miss Desire',kick:'Captivating · for her',desc:'Captivating elegance worn close to the skin. Soft, bold and impossible to forget.',price:'₹1,385',liquid:'#EE7F72',cap:'gold',accent:'#F29A8E'}
+];
+const NOTES=[
+  {tier:0,name:'Bergamot',c:'#D9CB4E'},{tier:0,name:'Lemon',c:'#F1DE5C'},{tier:0,name:'Apple',c:'#9CC44C'},{tier:0,name:'Black currant',c:'#5A1F48'},{tier:0,name:'Pink pepper',c:'#E68C9C'},
+  {tier:1,name:'Pineapple',c:'#F2B33D'},{tier:1,name:'Jasmine',c:'#F6F0E0'},{tier:1,name:'Birch',c:'#A8987F'},
+  {tier:2,name:'Patchouli',c:'#5E3F27'},{tier:2,name:'Cedarwood',c:'#8F5C36'},{tier:2,name:'Oakmoss',c:'#5E6E3B'},{tier:2,name:'Ambergris',c:'#CDAA7C'},{tier:2,name:'Musk',c:'#EADFCD'}
+];
+const TIERS=[['Top','Note di testa','The first bright spark'],['Heart','Note di cuore','The character'],['Base','Note di fondo','The trail it leaves']];
+
+/* ============================================================
+   DOM SETUP
+   ============================================================ */
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const smooth=(a,b,x)=>{const t=clamp((x-a)/(b-a));return t*t*(3-2*t)};
+const lerp=(a,b,t)=>a+(b-a)*t;
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
+const capCss={gold:'linear-gradient(90deg,#5a4520,#f1d9a0 45%,#8a6b33)',noir:'linear-gradient(90deg,#000,#3a3632 45%,#0b0a08)',chrome:'linear-gradient(90deg,#6c7178,#f4f6f8 45%,#8a9098)'};
+const miniHTML=f=>`<span class="mini" style="--liq:${f.liquid};--cap:${capCss[f.cap]}"><b></b><i></i></span>`;
+
+$('#introWord').innerHTML=[...'LUSSO DI FIRENZE'].map((ch,i)=>`<span style="animation-delay:${.05+i*.045}s">${ch===' '?'&nbsp;':ch}</span>`).join('');
+$('#tiers').innerHTML=TIERS.map((t,i)=>`<div class="tier" data-t="${i}"><span class="n">${['i','ii','iii'][i]}</span><h3>${t[0]}<small>${t[1]}</small></h3><p>${NOTES.filter(n=>n.tier===i).map(n=>n.name).join(' · ')}</p></div>`).join('');
+$('#labels').innerHTML=NOTES.map(n=>`<div class="note"><span>${n.name}</span></div>`).join('');
+$('#swatches').innerHTML=FRAGS.map((f,i)=>`<button class="sw" type="button" data-i="${i}" data-cursor="link" aria-label="${f.name}"><i style="background:${f.liquid}"></i><span>${f.name}</span></button>`).join('');
+$('#pickGrid').innerHTML=FRAGS.map((f,i)=>`<button class="pick" type="button" data-i="${i}" data-cursor="link" aria-label="Add ${f.name} to box">${miniHTML(f)}<span>${f.name}</span></button>`).join('');
+$('#slots').innerHTML='<div class="slot"><span class="ph">i</span></div>'.repeat(3);
+const marqHTML=FRAGS.map(f=>`<span>${f.name}</span><span class="dot">✦</span>`).join('');
+$('#marq').innerHTML=marqHTML+marqHTML;
+const noteEls=$$('#labels .note'),tierEls=$$('.tier');
+const setBannerH=()=>document.documentElement.style.setProperty('--bannerH',$('#banner').offsetHeight+'px');setBannerH();addEventListener('resize',setBannerH);
+
+/* ---------- smooth scroll ---------- */
+let lenis=null;
+if(!reduce&&window.Lenis){lenis=new window.Lenis({lerp:.085,smoothWheel:true});lenis.stop()}
+function goTo(target,offset=0){
+  const y=typeof target==='number'?target:(document.querySelector(target)?.getBoundingClientRect().top??0)+scrollY+offset;
+  if(lenis)lenis.scrollTo(y,{duration:1.8,easing:t=>1-Math.pow(1-t,4)});else scrollTo({top:y,behavior:reduce?'auto':'smooth'});
+}
+$$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const h=a.getAttribute('href');if(h.length<2)return;e.preventDefault();goTo(h)}));
+
+/* ---------- reveal on scroll ---------- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.25,rootMargin:'0px 0px -8% 0px'});
+function armReveals(){$$('.split,.rise').forEach(el=>io.observe(el))}
+
+/* ---------- nav hide on scroll ---------- */
+let lastY=0;const nav=$('#nav');
+function navTick(y){nav.classList.toggle('down',y>40);nav.classList.toggle('hide',y>lastY+2&&y>300);if(y<lastY-2)nav.classList.remove('hide');lastY=y}
+
+/* ---------- cursor + magnetic ---------- */
+const cur=$('#cursor'),dotc=$('#dotc'),curTxt=$('#cursorTxt');
+let cx=innerWidth/2,cy=innerHeight/2,tx=cx,ty=cy,cursorMode='';
+if(fine){document.body.classList.add('has-cursor')}
+function setCursor(m){if(m===cursorMode)return;cursorMode=m;cur.classList.toggle('big',m==='spritz'||m==='drag');cur.classList.toggle('link',m==='link');curTxt.textContent=m==='drag'?'Turn':'Spritz'}
+addEventListener('pointermove',e=>{if(e.pointerType==='mouse')document.body.classList.add('moved');tx=e.clientX;ty=e.clientY;dotc.style.transform=`translate(${tx}px,${ty}px)`});
+$$('.mag').forEach(b=>{
+  b.addEventListener('pointermove',e=>{if(!fine)return;const r=b.getBoundingClientRect();b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.22}px,${(e.clientY-r.top-r.height/2)*.3}px)`});
+  b.addEventListener('pointerleave',()=>{b.style.transition='transform .7s var(--ease),color .5s var(--ease),border-color .5s';b.style.transform='';setTimeout(()=>b.style.transition='',700)});
+});
+
+/* ---------- bag + box ---------- */
+let bag=0;const bagN=$('#bagN');
+function bump(n=1){bag+=n;bagN.textContent=bag;bagN.classList.add('bump');setTimeout(()=>bagN.classList.remove('bump'),300)}
+const boxSel=[];const slotEls=$$('.slot');
+function renderBox(){
+  slotEls.forEach((s,i)=>{const f=boxSel[i];const had=s.classList.contains('full');
+    if(f){if(!had||s.dataset.f!==f.id){s.innerHTML=`<span class="ph">${['i','ii','iii'][i]}</span>`+miniHTML(f);s.dataset.f=f.id;requestAnimationFrame(()=>requestAnimationFrame(()=>s.classList.add('full')))}}
+    else{s.classList.remove('full');s.dataset.f='';s.innerHTML=`<span class="ph">${['i','ii','iii'][i]}</span>`}});
+  $('#boxCount').textContent=boxSel.length===3?'Complete · 3 of 3':`${boxSel.length} of 3 chosen`;
+  $('#boxGo').disabled=boxSel.length<3;
+}
+renderBox();
+function addToBox(i){if(boxSel.length>=3)boxSel.shift();boxSel.push(FRAGS[i]);renderBox()}
+$('#pickGrid').addEventListener('click',e=>{const b=e.target.closest('.pick');if(b)addToBox(+b.dataset.i)});
+$('#boxClear').addEventListener('click',()=>{boxSel.length=0;renderBox()});
+$('#boxGo').addEventListener('click',()=>{bump(1);boxSel.length=0;renderBox()});
+
+/* ============================================================
+   THREE
+   ============================================================ */
+const canvas=$('#stage');
+let THREE,RoundedBoxGeometry,EffectComposer,RenderPass,UnrealBloomPass,OutputPass;
+try{
+  THREE=await import('three');
+  ({RoundedBoxGeometry}=await import('three/addons/geometries/RoundedBoxGeometry.js'));
+  ({EffectComposer}=await import('three/addons/postprocessing/EffectComposer.js'));
+  ({RenderPass}=await import('three/addons/postprocessing/RenderPass.js'));
+  ({UnrealBloomPass}=await import('three/addons/postprocessing/UnrealBloomPass.js'));
+  ({OutputPass}=await import('three/addons/postprocessing/OutputPass.js'));
+}catch(err){console.warn('3D unavailable',err)}
+
+let renderer=null;
+try{if(THREE)renderer=new THREE.WebGLRenderer({canvas,antialias:false,powerPreference:'high-performance'})}catch(e){renderer=null}
+
+/* collection state shared by DOM + 3D */
+let collIdx=-1;
+const cName=$('#cName'),cDesc=$('#cDesc'),cPrice=$('#cPrice'),cKick=$('#cKick'),cIdxEl=$('#cIdx'),swEls=$$('.sw');
+const nameHTML=n=>n.split(' ').map(w=>`<span class="w"><span>${w}</span></span>`).join('');
+function showFrag(i){
+  if(i===collIdx)return;const first=collIdx<0;collIdx=i;const f=FRAGS[i];
+  swEls.forEach((s,k)=>s.setAttribute('aria-current',k===i));
+  cIdxEl.textContent=String(i+1).padStart(2,'0');
+  document.documentElement.style.setProperty('--accent',f.accent);
+  const swap=()=>{cName.innerHTML=nameHTML(f.name);cName.classList.remove('out');cName.classList.add('pre');cDesc.textContent=f.desc;cPrice.textContent=f.price;cKick.textContent=`${String(i+1).padStart(2,'0')} · ${f.kick}`;cDesc.style.opacity=1;
+    requestAnimationFrame(()=>requestAnimationFrame(()=>cName.classList.remove('pre')))};
+  if(first||reduce)swap();else{cName.classList.add('out');cDesc.style.opacity=0;clearTimeout(showFrag.t);showFrag.t=setTimeout(swap,330)}
+}
+showFrag(0);
+const collSec=$('#collection');
+collSec.style.height=(FRAGS.length*75+100)+'vh';
+function collScrollTo(i){const r=collSec.getBoundingClientRect(),top=r.top+scrollY,span=collSec.offsetHeight-innerHeight;goTo(top+span*((i+.5)/FRAGS.length)*.98)}
+$('#swatches').addEventListener('click',e=>{const b=e.target.closest('.sw');if(b)collScrollTo(+b.dataset.i)});
+$('#cAdd').addEventListener('click',()=>bump(1));
+$('#cBox').addEventListener('click',()=>{addToBox(Math.max(0,collIdx));goTo('#box')});
+
+/* ---------- intro ---------- */
+const introBar=$('#introBar');let introDone=false,introT=-1;
+function finishIntro(){
+  if(introDone)return;introDone=true;introBar.style.transform='scaleX(1)';
+  setTimeout(()=>{$('#intro').classList.add('open');document.body.classList.remove('locked');lenis&&lenis.start();introT=performance.now();armReveals();
+    setTimeout(()=>$('#intro').remove(),1600)},reduce?0:450);
+}
+
+if(!renderer){
+  document.documentElement.classList.add('no-webgl');canvas.style.display='none';
+  const tick=(now)=>{if(lenis)lenis.raf(now);const y=scrollY;navTick(y);const ar=$('#collection').getBoundingClientRect();const e=clamp(-ar.top/(ar.height-innerHeight));showFrag(Math.min(FRAGS.length-1,Math.floor(e*FRAGS.length)));$('#cProg').style.transform=`scaleX(${e})`;
+    const nr=$('#anatomy').getBoundingClientRect();const ne=clamp(-nr.top/(nr.height-innerHeight));tierEls.forEach((t,k)=>t.classList.toggle('on',ne>.15+k*.25));requestAnimationFrame(tick)};
+  introBar.style.transform='scaleX(.6)';document.fonts.ready.then(finishIntro);tick();
+}else{
+/* ============================================================
+   RENDERER / SCENE
+   ============================================================ */
+const DPR=Math.min(devicePixelRatio||1,1.75);
+renderer.setPixelRatio(DPR);
+renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
+renderer.outputColorSpace=THREE.SRGBColorSpace;
+renderer.shadowMap.enabled=false;
+
+const scene=new THREE.Scene();
+scene.background=new THREE.Color('#0b0a08');
+const camera=new THREE.PerspectiveCamera(28,innerWidth/innerHeight,.1,100);
+camera.position.set(0,.6,10);scene.add(camera);
+
+/* studio environment: dark room with softbox strips -> crisp product reflections */
+(()=>{
+  const env=new THREE.Scene();env.background=new THREE.Color('#040302');
+  const strip=(w,h,x,y,z,col,k)=>{const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({color:new THREE.Color(col).multiplyScalar(k),side:THREE.DoubleSide}));m.position.set(x,y,z);m.lookAt(0,0,0);env.add(m)};
+  strip(1.6,9,6,1,3,'#ffffff',3.4);         // key softbox, front right
+  strip(.7,9,-6,.5,2.5,'#ffd9a0',4);      // warm strip, front left
+  strip(9,1.4,0,7,0,'#ffffff',2.4);       // overhead
+  strip(1.1,9,-2.5,0,-7,'#f1d9a0',5);     // back rim, gold
+  strip(1.1,9,3,0,-7,'#ffffff',3);        // back rim, white
+  strip(10,.5,0,-3.4,5,'#c9a45c',1.2);    // low front bounce
+  const pm=new THREE.PMREMGenerator(renderer);scene.environment=pm.fromScene(env,.015).texture;pm.dispose();
+})();
+const key=new THREE.DirectionalLight('#fff1dc',2.2);key.position.set(4,6,5);scene.add(key);
+const rim=new THREE.DirectionalLight('#f1d9a0',1.6);rim.position.set(-5,3,-4);scene.add(rim);
+scene.add(new THREE.AmbientLight('#3a2f22',.4));
+
+/* ---------- backdrop: giant type rendered INTO the scene so the glass refracts it ---------- */
+const BD={w:2048,h:1024,word:'FIRENZE',target:'FIRENZE',mix:0};
+const mkCanvas=()=>{const c=document.createElement('canvas');return c};
+const bdA=mkCanvas(),bdB=mkCanvas();
+const texA=new THREE.CanvasTexture(bdA),texB=new THREE.CanvasTexture(bdB);
+[texA,texB].forEach(t=>{t.colorSpace=THREE.SRGBColorSpace;t.minFilter=THREE.LinearFilter;t.generateMipmaps=false});
+function drawBackdrop(c,word,tex){
+  const W=BD.w,H=BD.h;if(c.width!==W||c.height!==H){c.width=W;c.height=H;tex&&tex.dispose()}const g=c.getContext('2d');
+  g.fillStyle='#0b0a08';g.fillRect(0,0,W,H);
+  let r=g.createRadialGradient(W*.5,H*.58,0,W*.5,H*.58,H*.9);r.addColorStop(0,'#3a2c18');r.addColorStop(.45,'#1a140d');r.addColorStop(1,'#0b0a08');g.fillStyle=r;g.fillRect(0,0,W,H);
+  // fine architectural lines (Brunelleschi-ish arches)
+  g.strokeStyle='rgba(201,164,92,.07)';g.lineWidth=2;
+  for(let i=-3;i<=3;i++){const x=W*.5+i*W*.16;g.beginPath();g.moveTo(x-W*.06,H);g.lineTo(x-W*.06,H*.52);g.arc(x,H*.52,W*.06,Math.PI,0);g.lineTo(x+W*.06,H);g.stroke()}
+  g.fillStyle='rgba(201,164,92,.05)';g.fillRect(0,H*.82,W,2);
+  // giant word
+  g.textAlign='center';g.textBaseline='middle';
+  let fs=H*.42;g.font=`italic 400 ${fs}px "Bodoni Moda", Didot, Georgia, serif`;
+  const m=g.measureText(word).width;fs=Math.min(fs,fs*(W*.92)/m);g.font=`italic 400 ${fs}px "Bodoni Moda", Didot, Georgia, serif`;
+  const gr=g.createLinearGradient(0,H*.3,0,H*.7);gr.addColorStop(0,'rgba(241,217,160,.13)');gr.addColorStop(1,'rgba(138,107,51,.04)');
+  g.fillStyle=gr;g.fillText(word,W*.5,H*.56);
+  g.lineWidth=1.5;g.strokeStyle='rgba(241,217,160,.2)';g.strokeText(word,W*.5,H*.56);
+  // vignette
+  r=g.createRadialGradient(W*.5,H*.5,H*.3,W*.5,H*.5,W*.62);r.addColorStop(0,'rgba(0,0,0,0)');r.addColorStop(1,'rgba(0,0,0,.75)');g.fillStyle=r;g.fillRect(0,0,W,H);
+}
+const bdMat=new THREE.ShaderMaterial({
+  uniforms:{tA:{value:texA},tB:{value:texB},uMix:{value:0},uOff:{value:new THREE.Vector2()},uGP:{value:new THREE.Vector2(.7,.45)},uGC:{value:new THREE.Color('#c9a45c')},uAsp:{value:1},uGI:{value:1}},
+  vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
+  fragmentShader:`uniform sampler2D tA,tB;uniform float uMix,uAsp,uGI;uniform vec2 uOff,uGP;uniform vec3 uGC;varying vec2 vUv;
+    void main(){vec2 uv=(vUv-.5)*.94+.5+uOff;vec3 a=texture2D(tA,uv).rgb,b=texture2D(tB,uv).rgb;
+    float m=smoothstep(0.,1.,uMix);vec3 c=mix(a,b,m)*1.15;
+    vec2 d=(vUv-uGP)*vec2(uAsp,1.);float r=dot(d,d);
+    c+=uGC*uGI*(exp(-r*9.)*.55+exp(-r*60.)*.9);
+    gl_FragColor=vec4(c,1.);}`,
+  depthWrite:false
+});
+const backdrop=new THREE.Mesh(new THREE.PlaneGeometry(1,1),bdMat);
+backdrop.position.z=-14;backdrop.renderOrder=-1;camera.add(backdrop);
+function layoutBackdrop(){
+  const a=innerWidth/innerHeight,h=2*14*Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*1.04;
+  backdrop.scale.set(h*a,h,1);BD.w=2048;BD.h=Math.round(2048/a);
+  if(BD.h>2048){BD.h=2048;BD.w=Math.round(2048*a)}
+  drawBackdrop(bdA,BD.word,texA);texA.needsUpdate=true;
+}
+function setWord(w){BD.target=w}
+function tickWord(dt){
+  if(BD.mix===0&&BD.target!==BD.word){drawBackdrop(bdB,BD.target,texB);texB.needsUpdate=true;BD.next=BD.target;BD.mix=.0001}
+  if(BD.mix>0){BD.mix=Math.min(1,BD.mix+dt*1.6);bdMat.uniforms.uMix.value=BD.mix;
+    if(BD.mix>=1){drawBackdrop(bdA,BD.next,texA);texA.needsUpdate=true;BD.word=BD.next;BD.mix=0;bdMat.uniforms.uMix.value=0}}
+}
+
+/* ---------- materials ---------- */
+const M={
+  /* glass shell only adds light (reflections + fresnel), like real glass over a dark set */
+  glass:new THREE.MeshPhysicalMaterial({color:'#000000',metalness:0,roughness:.03,clearcoat:1,clearcoatRoughness:.02,specularIntensity:1,ior:1.52,
+    envMapIntensity:1.5,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}),
+  glassInner:new THREE.MeshPhysicalMaterial({color:'#000000',metalness:0,roughness:.06,envMapIntensity:.6,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.BackSide}),
+  /* the juice: true transmission, so it refracts the backdrop glow and type behind it */
+  liquid:new THREE.MeshPhysicalMaterial({color:'#ffffff',metalness:0,roughness:.04,transmission:1,thickness:1.1,ior:1.36,
+    attenuationColor:new THREE.Color('#4a2a12'),attenuationDistance:.45,clearcoat:1,clearcoatRoughness:.03,specularIntensity:1,envMapIntensity:1.2,
+    emissive:new THREE.Color('#4a2a12'),emissiveIntensity:.12}),
+  gold:new THREE.MeshPhysicalMaterial({color:'#D8B26A',metalness:1,roughness:.2,clearcoat:.6,clearcoatRoughness:.15,envMapIntensity:1.5}),
+  cap:new THREE.MeshPhysicalMaterial({color:'#0c0b0a',metalness:.3,roughness:.14,clearcoat:1,clearcoatRoughness:.04,envMapIntensity:1.4,flatShading:true}),
+  marble:null,
+};
+const CAPS={gold:{c:'#D8B26A',m:1,r:.2},noir:{c:'#0d0c0b',m:.3,r:.14},chrome:{c:'#f2f4f7',m:1,r:.26}};
+
+/* liquid: fake sub-surface glow toward the centre so it reads as fluid, not a solid block */
+M.liquid.onBeforeCompile=sh=>{
+  sh.fragmentShader=sh.fragmentShader.replace('#include <emissivemap_fragment>',`#include <emissivemap_fragment>
+    float fz=clamp(dot(normalize(vNormal),normalize(vViewPosition)),0.,1.);
+    totalEmissiveRadiance*= .2+1.8*pow(fz,2.5);`);
+};
+
+/* marble plinth texture */
+function marbleTex(){
+  const c=document.createElement('canvas');c.width=1024;c.height=512;const g=c.getContext('2d');
+  g.fillStyle='#0f0e0c';g.fillRect(0,0,1024,512);
+  let s=11;const R=()=>(s=(s*16807)%2147483647)/2147483647;
+  for(let i=0;i<70;i++){g.beginPath();let x=R()*1024,y=R()*512;g.moveTo(x,y);
+    g.strokeStyle=i%9===0?`rgba(201,164,92,${.25+R()*.25})`:`rgba(235,228,214,${.03+R()*.08})`;g.lineWidth=.5+R()*2.2;
+    for(let k=0;k<6;k++){x+=(R()-.3)*220;y+=(R()-.5)*120;g.quadraticCurveTo(x-60+R()*120,y-60+R()*120,x,y)}g.stroke()}
+  const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.wrapS=THREE.RepeatWrapping;t.anisotropy=8;return t}
+M.marble=new THREE.MeshPhysicalMaterial({map:marbleTex(),roughness:.18,metalness:0,clearcoat:1,clearcoatRoughness:.08,envMapIntensity:.8});
+
+/* plaque (gold foil label) */
+const plaqueCanvas=document.createElement('canvas');plaqueCanvas.width=1024;plaqueCanvas.height=512;
+const plaqueTex=new THREE.CanvasTexture(plaqueCanvas);plaqueTex.colorSpace=THREE.SRGBColorSpace;plaqueTex.anisotropy=8;
+function drawPlaque(name){
+  const g=plaqueCanvas.getContext('2d'),W=1024,H=512;
+  let gr=g.createLinearGradient(0,0,W,H);gr.addColorStop(0,'#b8924c');gr.addColorStop(.45,'#f3dca6');gr.addColorStop(.55,'#e4c37f');gr.addColorStop(1,'#9c7a3c');
+  g.fillStyle=gr;g.fillRect(0,0,W,H);
+  g.strokeStyle='rgba(60,40,10,.6)';g.lineWidth=4;g.strokeRect(22,22,W-44,H-44);g.lineWidth=1.5;g.strokeRect(36,36,W-72,H-72);
+  g.fillStyle='#2a1c08';g.textAlign='center';g.textBaseline='middle';
+  g.font='500 40px "Bodoni Moda", Didot, Georgia, serif';g.letterSpacing='14px';g.fillText('LUSSO DI FIRENZE',W/2+7,122);
+  g.letterSpacing='0px';
+  let fs=120;g.font=`italic 400 ${fs}px "Bodoni Moda", Didot, Georgia, serif`;const m=g.measureText(name).width;fs=Math.min(fs,fs*(W*.8)/m);
+  g.font=`italic 400 ${fs}px "Bodoni Moda", Didot, Georgia, serif`;g.fillText(name,W/2,272);
+  g.font='600 26px "Hanken Grotesk", sans-serif';g.letterSpacing='10px';g.fillText('EXTRAIT DE PARFUM',W/2+5,402);g.letterSpacing='0px';
+  plaqueTex.needsUpdate=true;
+}
+drawPlaque(FRAGS[0].name);
+M.plaque=new THREE.MeshPhysicalMaterial({map:plaqueTex,metalness:.75,roughness:.32,clearcoat:.4,envMapIntensity:1.8,emissive:new THREE.Color('#ffffff'),emissiveMap:plaqueTex,emissiveIntensity:.18});
+
+/* ---------- bottle ---------- */
+const stage=new THREE.Group();scene.add(stage);
+const bottle=new THREE.Group();stage.add(bottle);
+const BW=1.5,BH=1.9,BDp=.92;
+const glassGeo=new RoundedBoxGeometry(BW,BH,BDp,6,.11);
+const glassBack=new THREE.Mesh(glassGeo,M.glassInner);glassBack.position.y=BH/2;glassBack.renderOrder=1;bottle.add(glassBack);
+const glass=new THREE.Mesh(glassGeo,M.glass);glass.position.y=BH/2;glass.renderOrder=2;bottle.add(glass);
+const liquid=new THREE.Mesh(new RoundedBoxGeometry(BW-.26,BH*.68,BDp-.24,5,.07),M.liquid);liquid.position.y=.32+BH*.34;bottle.add(liquid);
+const plaque=new THREE.Mesh(new THREE.PlaneGeometry(.86,.43),M.plaque);plaque.position.set(0,BH*.5,BDp/2+.004);bottle.add(plaque);
+const neck=new THREE.Mesh(new THREE.CylinderGeometry(.16,.18,.22,48),M.gold);neck.position.y=BH+.1;bottle.add(neck);
+const collar=new THREE.Mesh(new THREE.CylinderGeometry(.34,.34,.07,64),M.gold);collar.position.y=BH+.035;bottle.add(collar);
+const capG=new THREE.Group();capG.position.y=BH+.07;bottle.add(capG);
+const capBody=new THREE.Mesh(new THREE.CylinderGeometry(.46,.46,.86,8,1),M.cap);capBody.rotation.y=Math.PI/8;capBody.position.y=.45;capG.add(capBody);
+const capBand=new THREE.Mesh(new THREE.CylinderGeometry(.475,.475,.06,8,1),M.gold);capBand.rotation.y=Math.PI/8;capBand.position.y=.06;capG.add(capBand);
+const capTop=new THREE.Mesh(new THREE.CylinderGeometry(.3,.3,.02,8,1),M.gold);capTop.rotation.y=Math.PI/8;capTop.position.y=.885;capG.add(capTop);
+const nozzle=new THREE.Mesh(new THREE.CylinderGeometry(.06,.06,.12,24),M.gold);nozzle.position.y=BH+.27;bottle.add(nozzle);
+bottle.position.y=0;
+
+/* plinth */
+const PR=1.75,PH=.42;
+const plinth=new THREE.Mesh(new THREE.CylinderGeometry(PR,PR,PH,128,1),M.marble);plinth.position.y=-PH/2;stage.add(plinth);
+const ring=new THREE.Mesh(new THREE.TorusGeometry(PR+.002,.012,12,160),M.gold);ring.rotation.x=Math.PI/2;stage.add(ring);
+const ring2=ring.clone();ring2.position.y=-PH;stage.add(ring2);
+const shadowTex=(()=>{const c=document.createElement('canvas');c.width=c.height=256;const g=c.getContext('2d');const r=g.createRadialGradient(128,128,0,128,128,128);r.addColorStop(0,'rgba(0,0,0,.85)');r.addColorStop(.5,'rgba(0,0,0,.35)');r.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=r;g.fillRect(0,0,256,256);return new THREE.CanvasTexture(c)})();
+const shadow=new THREE.Mesh(new THREE.PlaneGeometry(2.6,1.9),new THREE.MeshBasicMaterial({map:shadowTex,transparent:true,depthWrite:false}));shadow.rotation.x=-Math.PI/2;shadow.position.y=.003;stage.add(shadow);
+/* landing shock ring */
+const shock=new THREE.Mesh(new THREE.RingGeometry(.98,1,128),new THREE.MeshBasicMaterial({color:new THREE.Color('#f1d9a0').multiplyScalar(1.2),transparent:true,opacity:0,depthWrite:false,side:THREE.DoubleSide}));
+shock.rotation.x=-Math.PI/2;shock.position.y=.006;stage.add(shock);
+
+/* glow card behind bottle (additive, billboarded) */
+const glowTex=(()=>{const c=document.createElement('canvas');c.width=c.height=256;const g=c.getContext('2d');const r=g.createRadialGradient(128,128,0,128,128,128);r.addColorStop(0,'rgba(255,255,255,1)');r.addColorStop(.3,'rgba(255,255,255,.35)');r.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=r;g.fillRect(0,0,256,256);return new THREE.CanvasTexture(c)})();
+const glowMat=new THREE.MeshBasicMaterial({map:glowTex,color:new THREE.Color('#c9a45c'),transparent:true,opacity:.28,blending:THREE.AdditiveBlending,depthWrite:false});
+const glow=new THREE.Mesh(new THREE.PlaneGeometry(7,7),glowMat);glow.position.set(0,1.2,-2.2);stage.add(glow);
+
+/* ---------- note orbs ---------- */
+const orbGeo=new THREE.SphereGeometry(1,40,24);
+const TY=[2.75,1.45,.3],TR=[1.85,2.05,2.25];
+const orbs=NOTES.map((n,i)=>{
+  const mat=new THREE.MeshPhysicalMaterial({color:n.c,roughness:.15,metalness:0,clearcoat:1,clearcoatRoughness:.05,emissive:new THREE.Color(n.c),emissiveIntensity:.12,sheen:1,sheenColor:new THREE.Color('#fff')});
+  const m=new THREE.Mesh(orbGeo,mat);m.scale.setScalar(0);stage.add(m);
+  const same=NOTES.filter(x=>x.tier===n.tier),k=same.indexOf(n);
+  return{m,tier:n.tier,phase:k/same.length*Math.PI*2+n.tier*.7,size:.085+((i*37)%5)*.012};
+});
+const orbitRings=TY.map((y,i)=>{const r=new THREE.Mesh(new THREE.TorusGeometry(TR[i],.004,6,200),new THREE.MeshBasicMaterial({color:new THREE.Color('#f1d9a0').multiplyScalar(1.4),transparent:true,opacity:0,depthWrite:false}));r.rotation.x=Math.PI/2;r.position.y=y;stage.add(r);return r});
+
+/* ---------- gold dust ---------- */
+const DN=650,dPos=new Float32Array(DN*3),dSeed=new Float32Array(DN);
+for(let i=0;i<DN;i++){dPos[i*3]=(Math.random()-.5)*16;dPos[i*3+1]=Math.random()*9-2;dPos[i*3+2]=(Math.random()-.5)*10-1;dSeed[i]=Math.random()}
+const dGeo=new THREE.BufferGeometry();dGeo.setAttribute('position',new THREE.BufferAttribute(dPos,3));dGeo.setAttribute('seed',new THREE.BufferAttribute(dSeed,1));
+const dMat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
+  uniforms:{uT:{value:0},uPx:{value:innerHeight*DPR},uA:{value:1}},
+  vertexShader:`attribute float seed;uniform float uT,uPx;varying float vA;
+    void main(){vec3 p=position;p.y=mod(p.y+uT*(.05+seed*.12)+2.,9.)-2.;p.x+=sin(uT*.3+seed*20.)*.25;p.z+=cos(uT*.25+seed*14.)*.2;
+    vec4 mv=modelViewMatrix*vec4(p,1.);gl_Position=projectionMatrix*mv;gl_PointSize=(1.+seed*seed*3.5)*uPx*.0016/(-mv.z)*8.;
+    vA=(.25+.75*pow(sin(uT*(.6+seed)+seed*40.)*.5+.5,3.))*smoothstep(-2.,-1.,p.y)*smoothstep(7.,5.,p.y);}`,
+  fragmentShader:`uniform float uA;varying float vA;void main(){float r=length(gl_PointCoord-.5)*2.;if(r>1.)discard;float a=pow(1.-r,2.2);gl_FragColor=vec4(vec3(1.,.82,.5)*1.6,a*vA*uA*.8);}`});
+const dust=new THREE.Points(dGeo,dMat);scene.add(dust);
+
+/* ---------- mist (spritz) ---------- */
+const MN=900,mPos=new Float32Array(MN*3),mVel=new Float32Array(MN*3),mLife=new Float32Array(MN).fill(-1),mAlpha=new Float32Array(MN),mSize=new Float32Array(MN);
+const mGeo=new THREE.BufferGeometry();mGeo.setAttribute('position',new THREE.BufferAttribute(mPos,3));mGeo.setAttribute('alpha',new THREE.BufferAttribute(mAlpha,1));mGeo.setAttribute('size',new THREE.BufferAttribute(mSize,1));
+const mMat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms:{uPx:{value:innerHeight*DPR},uC:{value:new THREE.Color('#f1d9a0')}},
+  vertexShader:`attribute float alpha,size;uniform float uPx;varying float vA;void main(){vec4 mv=modelViewMatrix*vec4(position,1.);gl_Position=projectionMatrix*mv;gl_PointSize=size*uPx*.11/(-mv.z);vA=alpha;}`,
+  fragmentShader:`uniform vec3 uC;varying float vA;void main(){float r=length(gl_PointCoord-.5)*2.;if(r>1.)discard;gl_FragColor=vec4(mix(uC,vec3(1.),.5),pow(1.-r,2.4)*vA*.32);}`});
+const mist=new THREE.Points(mGeo,mMat);mist.frustumCulled=false;scene.add(mist);
+let mHead=0;
+const _v=new THREE.Vector3(),_d=new THREE.Vector3(),_q=new THREE.Quaternion();
+function spritz(n=380,ring=false){
+  nozzle.getWorldPosition(_v);
+  bottle.getWorldQuaternion(_q);
+  for(let i=0;i<n;i++){const k=mHead;mHead=(mHead+1)%MN;
+    let dir;
+    if(ring){const a=Math.random()*Math.PI*2;dir=_d.set(Math.cos(a),.05+Math.random()*.15,Math.sin(a)).normalize();
+      mPos[k*3]=stage.position.x+Math.cos(a)*1.0;mPos[k*3+1]=stage.position.y+.05;mPos[k*3+2]=stage.position.z+Math.sin(a)*1.0;
+      const sp=1.2+Math.random()*2.2;mVel[k*3]=dir.x*sp;mVel[k*3+1]=dir.y*sp;mVel[k*3+2]=dir.z*sp}
+    else{dir=_d.set(.35+Math.random()*.25,.75+Math.random()*.4,.9+Math.random()*.2).normalize();dir.x+=(Math.random()-.5)*.5;dir.y+=(Math.random()-.5)*.4;
+      mPos[k*3]=_v.x;mPos[k*3+1]=_v.y+.6;mPos[k*3+2]=_v.z;
+      const sp=2.4+Math.random()*3.4;mVel[k*3]=dir.x*sp;mVel[k*3+1]=dir.y*sp;mVel[k*3+2]=dir.z*sp}
+    mLife[k]=0;mSize[k]=.6+Math.random()*1.6}
+}
+function tickMist(dt){
+  for(let k=0;k<MN;k++){if(mLife[k]<0){mAlpha[k]=0;continue}
+    mLife[k]+=dt;const L=mLife[k];if(L>2.2){mLife[k]=-1;mAlpha[k]=0;continue}
+    const drag=Math.exp(-dt*2.6);mVel[k*3]*=drag;mVel[k*3+1]=mVel[k*3+1]*drag+dt*.18;mVel[k*3+2]*=drag;
+    mPos[k*3]+=mVel[k*3]*dt;mPos[k*3+1]+=mVel[k*3+1]*dt;mPos[k*3+2]+=mVel[k*3+2]*dt;
+    mSize[k]+=dt*2.2;mAlpha[k]=smooth(0,.08,L)*(1-smooth(.5,2.2,L))}
+  mGeo.attributes.position.needsUpdate=mGeo.attributes.alpha.needsUpdate=mGeo.attributes.size.needsUpdate=true;
+}
+let capPop=0;function doSpritz(){capPop=1;setTimeout(()=>spritz(420),reduce?0:260)}
+
+/* ---------- post ---------- */
+const rt=new THREE.WebGLRenderTarget(innerWidth*DPR,innerHeight*DPR,{type:THREE.HalfFloatType,samples:renderer.capabilities.isWebGL2?4:0});
+const composer=new EffectComposer(renderer,rt);
+composer.addPass(new RenderPass(scene,camera));
+const bloom=new UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight),.34,.55,.9);composer.addPass(bloom);
+composer.addPass(new OutputPass());
+
+function resize(){
+  const w=innerWidth,h=innerHeight;renderer.setSize(w,h,false);composer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();
+  dMat.uniforms.uPx.value=mMat.uniforms.uPx.value=h*DPR;layoutBackdrop();
+}
+addEventListener('resize',resize);resize();
+
+/* ---------- colour state (lerped) ---------- */
+const col={liq:new THREE.Color(FRAGS[0].liquid),glow:new THREE.Color('#c9a45c'),cap:new THREE.Color(CAPS.noir.c),capM:.3,capR:.14};
+const tgt={liq:new THREE.Color(),glow:new THREE.Color(),cap:new THREE.Color(),capM:0,capR:0};
+let plaqueName=FRAGS[0].name;const _white=new THREE.Color('#ffffff');
+
+/* ---------- interaction ---------- */
+let yaw=-.45,vel=0,drag=false,downX=0,lastX=0,moved=0,mx=0,my=0,hovering=false;
+const ray=new THREE.Raycaster(),ndc=new THREE.Vector2();
+const pickables=[glass,capBody,liquid,plaque];
+function hitBottle(x,y){ndc.set(x/innerWidth*2-1,-(y/innerHeight)*2+1);ray.setFromCamera(ndc,camera);return ray.intersectObjects(pickables,false).length>0}
+let interactive=true;
+canvas.addEventListener('pointerdown',e=>{if(!interactive)return;drag=true;downX=lastX=e.clientX;moved=0;vel=0});
+addEventListener('pointerdown',e=>{if(e.target.closest('a,button,.card,.tiers'))return;if(e.target===canvas)return;
+  if(interactive&&hitBottle(e.clientX,e.clientY)||interactive&&e.target.closest('#hero')){drag=true;downX=lastX=e.clientX;moved=0;vel=0}});
+addEventListener('pointermove',e=>{
+  if(drag){const d=e.clientX-lastX;lastX=e.clientX;moved+=Math.abs(d);vel=d*.006;yaw+=vel}
+  if(fine&&interactive&&!e.target.closest('a,button')){hovering=hitBottle(e.clientX,e.clientY)}else hovering=false;
+});
+addEventListener('pointerup',e=>{if(drag&&moved<6&&interactive&&hitBottle(e.clientX,e.clientY))doSpritz();drag=false});
+addEventListener('pointercancel',()=>drag=false);
+document.addEventListener('mouseover',e=>{if(e.target.closest('[data-cursor="link"],a,button'))setCursor('link')});
+document.addEventListener('mouseout',e=>{if(e.target.closest('[data-cursor="link"],a,button'))setCursor('')});
+
+/* ---------- sections ---------- */
+const heroSec=$('#hero'),anatSec=$('#anatomy'),boxSec=$('#box'),cProg=$('#cProg'),anatCount=$('#anatCount');
+const easeOutBack=t=>{const c1=1.2,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2)};
+const easeOutExpo=t=>t>=1?1:1-Math.pow(2,-10*t);
+let last=performance.now(),landed=false,shockT=-1,firstFrame=true,lastTier=-1,lastCount=-1;
+const v3=new THREE.Vector3();
+const hexOf=c=>c.getHexString();
+
+function frame(now){
+  requestAnimationFrame(frame);
+  const dt=Math.min(.05,(now-last)/1000);last=now;const t=now/1000;
+  if(lenis)lenis.raf(now);
+  const y=scrollY,W=innerWidth,H=innerHeight,narrow=W<900;
+  navTick(y);
+  cx+=(tx-cx)*.18;cy+=(ty-cy)*.18;cur.style.transform=`translate(${cx}px,${cy}px)`;
+  mx+=((tx/W-.5)-mx)*.05;my+=((ty/H-.5)-my)*.05;
+
+  /* scroll progress */
+  const ar=anatSec.getBoundingClientRect(),cr=collSec.getBoundingClientRect(),br=boxSec.getBoundingClientRect();
+  const heroP=clamp(y/H);
+  const aIn=smooth(0,1,clamp(1-ar.top/H)),aE=clamp(-ar.top/(ar.height-H));
+  const cIn=smooth(0,1,clamp(1-cr.top/H)),cE=clamp(-cr.top/(cr.height-H));
+  const covered=br.top<=0;
+  interactive=!covered&&(heroP<.6||cIn>.9);
+
+  /* intro drop */
+  const it=introT<0?0:reduce?1:clamp((now-introT)/1000/2.1);
+  const dropK=easeOutBack(clamp(it/.8));
+  if(!landed&&it>=.42){landed=true;shockT=0;if(!reduce)spritz(260,true)}
+
+  /* anatomy */
+  const capLift=smooth(.04,.16,aE)*(1-smooth(.92,1,aE))*aIn*(1-cIn);
+  const tierP=[smooth(.14,.3,aE),smooth(.36,.52,aE),smooth(.58,.74,aE)].map(v=>v*aIn*(1-smooth(.2,.75,cIn)));
+  const activeTier=aIn<.5?-1:aE<.14?-1:aE<.36?0:aE<.58?1:2;
+  if(activeTier!==lastTier){lastTier=activeTier;tierEls.forEach((el,k)=>el.classList.toggle('on',k<=activeTier))}
+  const shown=Math.round(tierP[0]*5+tierP[1]*3+tierP[2]*5);if(shown!==lastCount){lastCount=shown;anatCount.textContent=String(shown).padStart(2,'0')}
+
+  /* collection index + colour */
+  const ci=Math.min(FRAGS.length-1,Math.floor(cE*FRAGS.length));
+  if(cIn>.5)showFrag(ci);else if(cIn<.2)showFrag(0);
+  cProg.style.transform=`scaleX(${cE.toFixed(4)})`;
+  const f=FRAGS[cIn>.5?ci:0];
+  tgt.liq.set(f.liquid);tgt.glow.set(cIn>.3?f.accent:'#c9a45c');const cp=CAPS[f.cap];tgt.cap.set(cp.c);tgt.capM=cp.m;tgt.capR=cp.r;
+  const ck=1-Math.exp(-dt*4);
+  col.liq.lerp(tgt.liq,ck);col.glow.lerp(tgt.glow,ck);col.cap.lerp(tgt.cap,ck);col.capM=lerp(col.capM,tgt.capM,ck);col.capR=lerp(col.capR,tgt.capR,ck);
+  M.liquid.attenuationColor.copy(col.liq);M.liquid.emissive.copy(col.liq);M.liquid.color.copy(col.liq).lerp(_white,.55);M.cap.color.copy(col.cap);M.cap.metalness=col.capM;M.cap.roughness=col.capR;
+  glowMat.color.copy(col.glow);bdMat.uniforms.uGC.value.copy(col.glow);mMat.uniforms.uC.value.copy(col.glow);
+  if(plaqueName!==f.name){plaqueName=f.name;drawPlaque(f.name)}
+  setWord(cIn>.5?f.name.toUpperCase():aIn>.5?'NOTE':'FIRENZE');
+  tickWord(dt);
+  bdMat.uniforms.uOff.value.set(-mx*.012,my*.01);
+
+  /* layout: hero -> anatomy -> collection */
+  const camZ0=narrow?14.5:11.2;
+  const halfH=camZ0*Math.tan(THREE.MathUtils.degToRad(14)),halfW=halfH*W/H;
+  const P={
+    hero:{x:narrow?0:halfW*.36,y:narrow?-halfH*.5:-1.25,z:camZ0,s:narrow?.66:1},
+    anat:{x:narrow?0:halfW*.2,y:narrow?-.15:-1.45,z:narrow?15.5:11.6,s:narrow?.6:1},
+    coll:{x:narrow?0:-halfW*.24,y:narrow?-.15:-1.35,z:narrow?15:11.4,s:narrow?.72:1}
+  };
+  const lx=(a,b,c,k)=>lerp(lerp(P.hero[k],P.anat[k],a),P.coll[k],b);
+  const sx=lx(aIn,cIn,0,'x'),sy=lx(aIn,cIn,0,'y'),camZ=lx(aIn,cIn,0,'z'),sc=lx(aIn,cIn,0,'s');
+  const drop=(1-dropK)*6.5;
+  stage.position.set(sx+(narrow?0:mx*.18),sy+(reduce?0:Math.sin(t*.9)*.03),0);
+  stage.scale.setScalar(sc);
+  bottle.position.y=drop+(narrow?0:0);
+  /* camera orbits a touch during anatomy */
+  const orbitA=(aE-.5)*.5*aIn*(1-cIn);
+  camera.position.set(Math.sin(orbitA)*camZ+mx*.35,.9+my*-.3+aIn*(1-cIn)*.8,Math.cos(orbitA)*camZ);
+  camera.lookAt(stage.position.x*.0,sy*.0+.1+aIn*(1-cIn)*.35,0);
+  /* rotation */
+  const collSpin=cIn>.01?(cE*FRAGS.length)*Math.PI*2*.5:0; // half turn per fragrance, continuous with scroll
+  if(!drag){vel*=.94;yaw+=vel+(reduce?0:dt*.22*(1-aIn*.5)*(1-cIn))}
+  bottle.rotation.y=yaw+collSpin+(1-dropK)*Math.PI*2.5;
+  bottle.rotation.z=(1-dropK)*.35+(reduce?0:Math.sin(t*.6)*.015);
+  /* cap: anatomy lift + spritz pop */
+  capPop=Math.max(0,capPop-dt*1.4);
+  const pop=Math.sin(Math.min(1,1-capPop)*Math.PI)*(capPop>0?1:0);
+  capG.position.y=BH+.07+capLift*1.05+pop*.75;
+  capG.rotation.y=capLift*.6+pop*.8;capG.rotation.z=capLift*.08;
+  nozzle.visible=true;
+
+  /* orbs */
+  orbs.forEach((o,i)=>{
+    const p=tierP[o.tier],a=o.phase+t*(.35-o.tier*.08)*(reduce?0:1);
+    const r=TR[o.tier]*(1+.25*(1-p));
+    o.m.position.set(Math.cos(a)*r,TY[o.tier]+Math.sin(t*1.3+i)*.05,Math.sin(a)*r);
+    o.m.scale.setScalar(o.size*easeOutBack(p));
+    o.m.visible=p>.001;
+    // label
+    const el=noteEls[i];
+    if(p<.02||narrow){el.style.opacity=0;return}
+    o.m.getWorldPosition(v3);const depth=v3.z-stage.position.z;v3.project(camera);
+    const X=(v3.x*.5+.5)*W,Y=(-v3.y*.5+.5)*H;
+    const right=X>((new THREE.Vector3().copy(stage.position).project(camera).x*.5+.5)*W);
+    el.classList.toggle('l',!right);
+    el.style.opacity=(p*(depth>-.2?1:.28)).toFixed(3);
+    el.style.transform=`translate(${right?X+14:X-14}px,${Y}px) translate(${right?'0':'-100%'},-50%)`;
+  });
+  orbitRings.forEach((r,i)=>{r.material.opacity=tierP[i]*.35;r.scale.setScalar(1+.25*(1-tierP[i]))});
+
+  /* shock + dust + mist */
+  if(shockT>=0){shockT+=dt*.7;const k=easeOutExpo(clamp(shockT));shock.scale.setScalar(.9+k*2.6);shock.material.opacity=(1-clamp(shockT))*.45;if(shockT>=1){shockT=-1;shock.material.opacity=0}}
+  shadow.material.opacity=1-clamp(drop/4);shadow.scale.setScalar(1+clamp(drop/6)*.6);
+  dMat.uniforms.uT.value=reduce?0:t;
+  tickMist(dt);
+  glow.quaternion.copy(camera.quaternion);glowMat.opacity=.1+aIn*.04;
+  liquid.getWorldPosition(v3);v3.project(camera);bdMat.uniforms.uGP.value.set(v3.x*.5+.5,v3.y*.5+.5);bdMat.uniforms.uAsp.value=W/H;bdMat.uniforms.uGI.value=.85+Math.sin(t*.8)*.08;
+
+  /* cursor label over the bottle */
+  setCursor(hovering?(drag&&moved>6?'drag':'spritz'):(cursorMode==='link'?'link':''));
+
+  if(!covered||firstFrame){composer.render(dt);canvas.style.visibility='visible'}else canvas.style.visibility='hidden';
+  if(firstFrame){firstFrame=false;introBar.style.transform='scaleX(.85)';document.fonts.ready.then(()=>{drawPlaque(plaqueName);layoutBackdrop();setTimeout(finishIntro,reduce?0:500)})}
+}
+introBar.style.transform='scaleX(.5)';
+requestAnimationFrame(frame);
+}
+</script>
+</body>
+</html>
