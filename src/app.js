@@ -62,6 +62,7 @@ const setBannerH=()=>document.documentElement.style.setProperty('--bannerH',$('#
 /* smooth scroll */
 let lenis=null;
 if(!reduce){lenis=new Lenis({lerp:.09,smoothWheel:true});lenis.stop()}
+window.__ldfLenis=()=>lenis; // lets capture tooling (Dribbble video renders) hand scrolling back to the page
 function goTo(target){
   const y=typeof target==='number'?target:(document.querySelector(target)?.getBoundingClientRect().top??0)+scrollY;
   if(lenis)lenis.scrollTo(y,{duration:1.6,easing:t=>1-Math.pow(1-t,4)});else scrollTo({top:y,behavior:reduce?'auto':'smooth'});
