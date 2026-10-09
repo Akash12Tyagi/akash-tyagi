@@ -128,7 +128,7 @@ function showFrag(i){
   cIdxEl.textContent=String(i+1).padStart(2,'0');
   if(!first&&f.img){const show=photoFlip?cImgA:cImgB,hide=photoFlip?cImgB:cImgA;photoFlip=!photoFlip;show.src='assets/img/'+f.img;show.alt=f.name;show.classList.remove('hid');hide.classList.add('hid')}
   cCap.textContent=f.cap||f.name;
-  const swap=()=>{cName.innerHTML=nameHTML(f.name);cName.classList.remove('out');cName.classList.add('pre');
+  const swap=()=>{cName.innerHTML=nameHTML(f.name);cName.classList.toggle('long',f.name.replace(/\s/g,'').length>13);cName.classList.remove('out');cName.classList.add('pre');
     cDesc.innerHTML=f.desc+(f.notes?`<em>${f.notes}</em>`:'');cDesc.style.opacity=1;
     cPrice.textContent=inr(f.price);cMrp.textContent=inr(f.mrp);cOff.textContent=off(f)+'% OFF';
     cKick.textContent=[f.conc,f.who].filter(Boolean).join(' · ');
