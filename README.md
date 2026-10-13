@@ -14,10 +14,10 @@ The `start-mac.command` / `start-windows.bat` / `start.sh` scripts are optional;
 
 ## Editing
 
-Source lives in `src/app.js`. After changes run `npm install` once, then `npm run build`: it regenerates `assets/app.js` and assembles the deployable site in `dist/`.
+Source lives in `src/app.js`. After changes run `npm install` once, then `npm run build`: it regenerates `assets/app.js` and assembles the deployable site in `public/`.
 
 ## Deploying (Vercel)
 
-`vercel.json` sets the build command (`npm run build`), the output directory (`dist`) and cache headers: photography and logos cache for 30 days; `index.html` and `app.js` revalidate on every visit so a redeploy shows up immediately.
+`vercel.json` sets the build command (`npm run build`), the output directory (`public`, Vercel's default) and cache headers: photography and logos cache for 30 days; `index.html` and `app.js` revalidate on every visit so a redeploy shows up immediately.
 
 MRP/discount figures are placeholders until live pricing is supplied.
